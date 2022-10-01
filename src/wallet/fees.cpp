@@ -69,7 +69,7 @@ CFeeRate GetMinimumFeeRate(const CWallet& wallet, const CCoinControl& coin_contr
             if (wallet.m_fallback_fee == CFeeRate(0)) return feerate_needed;
         }
         // Obey mempool min fee when using smart fee estimation
-        CFeeRate min_mempool_feerate = pool.GetMinFee(gArgs.GetArg("-maxmempool", DEFAULT_MAX_MEMPOOL_SIZE) * 1000000);
+        CFeeRate min_mempool_feerate = pool.GetMinFee(gArgs.GetArg("-maxmempool", DEFAULT_MAX_MEMPOOL_SIZE) * 64000000);
         if (feerate_needed < min_mempool_feerate) {
             feerate_needed = min_mempool_feerate;
             if (feeCalc) feeCalc->reason = FeeReason::MEMPOOL_MIN;
