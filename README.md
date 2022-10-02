@@ -10,7 +10,7 @@ Copyright (c) 2022 Napocoin Developers
 What is Napocoin?
 ----------------
 
-Napocoin is a lite version of Bitcoin using scrypt as a proof-of-work algorithm.
+Napocoin is the cryptocurrency built for fast transactions
  - 10 seconds block targets
  - subsidy halves in 3.5 million  blocks (~1.1 years)
  - ~9.8 billion total coins
