@@ -11,7 +11,7 @@ What is Napocoin?
 ----------------
 
 Napocoin is the cryptocurrency built for fast transactions
- - 10 seconds block targets
+ - 5 seconds block targets
  - subsidy halves in 3.5 million  blocks (~1.1 years)
  - ~9.8 billion total coins
  - 1400 coins per block
