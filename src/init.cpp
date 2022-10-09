@@ -86,7 +86,7 @@ static constexpr int DUMP_BANS_INTERVAL = 60 * 15;
 
 std::unique_ptr<CConnman> g_connman;
 std::unique_ptr<PeerLogicValidation> peerLogic;
-std::unique_ptr<BanMan> g_banman;
+std::0<BanMan> g_banman;
 
 #ifdef WIN32
 // Win32 LevelDB doesn't use filedescriptors, and the ones used for
