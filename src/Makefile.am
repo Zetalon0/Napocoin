@@ -335,26 +335,35 @@ crypto_libbitcoin_crypto_base_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 crypto_libbitcoin_crypto_base_a_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
+  crypto/chacha_poly_aead.h \
+  crypto/chacha_poly_aead.cpp \
   crypto/chacha20.h \
   crypto/chacha20.cpp \
   crypto/common.h \
+  crypto/hkdf_sha256_32.cpp \
+  crypto/hkdf_sha256_32.h \
   crypto/hmac_sha256.cpp \
   crypto/hmac_sha256.h \
   crypto/hmac_sha512.cpp \
   crypto/hmac_sha512.h \
+  crypto/poly1305.h \
+  crypto/poly1305.cpp \
+  crypto/muhash.h \
+  crypto/muhash.cpp \
   crypto/ripemd160.cpp \
   crypto/ripemd160.h \
-  crypto/scrypt.cpp \
-  crypto/scrypt-sse2.cpp \
-  crypto/scrypt.h \
   crypto/sha1.cpp \
   crypto/sha1.h \
   crypto/sha256.cpp \
   crypto/sha256.h \
+  crypto/sha3.cpp \
+  crypto/sha3.h \
   crypto/sha512.cpp \
   crypto/sha512.h \
   crypto/siphash.cpp \
-  crypto/siphash.h
+  crypto/siphash.h \
+  crypto/scrypt.cpp \
+  crypto/scrypt.h
 
 if USE_ASM
 crypto_libbitcoin_crypto_base_a_SOURCES += crypto/sha256_sse4.cpp
