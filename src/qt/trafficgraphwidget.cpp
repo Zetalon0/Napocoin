@@ -9,7 +9,7 @@
 #include <QPainter>
 #include <QColor>
 #include <QTimer>
-
+#include <QPainterPath>
 #include <cmath>
 
 #define DESIRED_SAMPLES         800
@@ -104,6 +104,7 @@ void TrafficGraphWidget::paintEvent(QPaintEvent *)
         }
     }
 
+    painter.setRenderHint(QPainter::Antialiasing);
     if(!vSamplesIn.empty()) {
         QPainterPath p;
         paintPath(p, vSamplesIn);

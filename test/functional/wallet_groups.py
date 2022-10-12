@@ -7,20 +7,15 @@
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.messages import CTransaction, FromHex, ToHex
 from test_framework.util import (
+    assert_approx,
     assert_equal,
 )
-
-def assert_approx(v, vexp, vspan=0.00001):
-    if v < vexp - vspan:
-        raise AssertionError("%s < [%s..%s]" % (str(v), str(vexp - vspan), str(vexp + vspan)))
-    if v > vexp + vspan:
-        raise AssertionError("%s > [%s..%s]" % (str(v), str(vexp - vspan), str(vexp + vspan)))
 
 class WalletGroupTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 3
-        self.extra_args = [["-maxtxfee=1.0"], ["-maxtxfee=1.0"], ['-avoidpartialspends', '-maxtxfee=1.0']]
+        self.extra_args = [[], [], ['-avoidpartialspends']]
         self.rpc_timeout = 120
 
     def skip_test_if_missing_module(self):
@@ -55,7 +50,7 @@ class WalletGroupTest(BitcoinTestFramework):
         v = [vout["value"] for vout in tx1["vout"]]
         v.sort()
         assert_approx(v[0], 0.2)
-        assert_approx(v[1], 0.3, 0.001)
+        assert_approx(v[1], 0.3, 0.01)
 
         txid2 = self.nodes[2].sendtoaddress(self.nodes[0].getnewaddress(), 0.2)
         tx2 = self.nodes[2].getrawtransaction(txid2, True)
@@ -66,7 +61,7 @@ class WalletGroupTest(BitcoinTestFramework):
         v = [vout["value"] for vout in tx2["vout"]]
         v.sort()
         assert_approx(v[0], 0.2)
-        assert_approx(v[1], 1.3, 0.001)
+        assert_approx(v[1], 1.3, 0.01)
 
         # Empty out node2's wallet
         self.nodes[2].sendtoaddress(address=self.nodes[0].getnewaddress(), amount=self.nodes[2].getbalance(), subtractfeefromamount=True)

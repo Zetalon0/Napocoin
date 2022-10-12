@@ -38,7 +38,7 @@
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>org.napocoin.Napocoin-Qt</string>
+  <string>com.napocoin.Napocoin-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>
@@ -46,7 +46,7 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>org.napocoin.NapocoinPayment</string>
+      <string>com.napocoin.NapocoinPayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
         <string>napocoin</string>
@@ -58,7 +58,7 @@
   <array>
     <dict>
       <key>UTTypeIdentifier</key>
-      <string>org.napocoin.paymentrequest</string>
+      <string>com.napocoin.paymentrequest</string>
       <key>UTTypeDescription</key>
       <string>Napocoin payment request</string>
       <key>UTTypeConformsTo</key>
@@ -84,7 +84,7 @@
       <string>Editor</string>
       <key>LSItemContentTypes</key>
       <array>
-        <string>org.napocoin.paymentrequest</string>
+        <string>com.napocoin.paymentrequest</string>
       </array>
       <key>LSHandlerRank</key>
       <string>Owner</string>
@@ -99,7 +99,7 @@
 
   <key>NSRequiresAquaSystemAppearance</key>
     <string>True</string>
-  
+
   <key>LSApplicationCategoryType</key>
     <string>public.app-category.finance</string>
 </dict>

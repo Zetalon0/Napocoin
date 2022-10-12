@@ -5,6 +5,8 @@
 #ifndef BITCOIN_QT_GUICONSTANTS_H
 #define BITCOIN_QT_GUICONSTANTS_H
 
+#include <cstdint>
+
 /* Milliseconds between model updates */
 static const int MODEL_UPDATE_DELAY = 250;
 
@@ -37,17 +39,11 @@ static const bool DEFAULT_SPLASHSCREEN = true;
  */
 static const int TOOLTIP_WRAP_THRESHOLD = 80;
 
-/* Maximum allowed URI length */
-static const int MAX_URI_LENGTH = 255;
-
-/* QRCodeDialog -- size of exported QR Code image */
-#define QR_IMAGE_SIZE 300
-
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 36
 
 #define QAPP_ORG_NAME "Napocoin"
-#define QAPP_ORG_DOMAIN "napocoin.org"
+#define QAPP_ORG_DOMAIN "napocoin.net"
 #define QAPP_APP_NAME_DEFAULT "Napocoin-Qt"
 #define QAPP_APP_NAME_TESTNET "Napocoin-Qt-testnet"
 #define QAPP_APP_NAME_REGTEST "Napocoin-Qt-regtest"

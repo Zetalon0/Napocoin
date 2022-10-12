@@ -13,7 +13,7 @@
 - (NSString *)__bundleIdentifier
 {
     if (self == [NSBundle mainBundle]) {
-        return @"org.napocoin.Napocoin-Qt";
+        return @"com.napocoin.Napocoin-Qt";
     } else {
         return [self __bundleIdentifier];
     }

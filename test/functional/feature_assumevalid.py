@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2018 The Bitcoin Core developers
+# Copyright (c) 2014-2019 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test logic for skipping signature validation on old blocks.
@@ -40,11 +40,11 @@ from test_framework.messages import (
     CTxIn,
     CTxOut,
     msg_block,
-    msg_headers
+    msg_headers,
 )
 from test_framework.mininode import P2PInterface
 from test_framework.script import (CScript, OP_TRUE)
-from test_framework.test_framework import BitcoinTestFramework, SkipTest
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import assert_equal
 
 class BaseNode(P2PInterface):
@@ -72,7 +72,7 @@ class AssumeValidTest(BitcoinTestFramework):
                 break
             try:
                 p2p_conn.send_message(msg_block(self.blocks[i]))
-            except IOError as e:
+            except IOError:
                 assert not p2p_conn.is_connected
                 break
 
@@ -95,9 +95,6 @@ class AssumeValidTest(BitcoinTestFramework):
                 break
 
     def run_test(self):
-        if True:
-            raise SkipTest("TO-DO")
-
         p2p0 = self.nodes[0].add_p2p_connection(BaseNode())
 
         # Build the blockchain
@@ -113,7 +110,7 @@ class AssumeValidTest(BitcoinTestFramework):
 
         # Create the first block with a coinbase output to our key
         height = 1
-        block = create_block(self.tip, create_coinbase(height, coinbase_pubkey), self.block_time, version=0x20000000)
+        block = create_block(self.tip, create_coinbase(height, coinbase_pubkey), self.block_time)
         self.blocks.append(block)
         self.block_time += 1
         block.solve()
@@ -124,7 +121,7 @@ class AssumeValidTest(BitcoinTestFramework):
 
         # Bury the block 100 deep so the coinbase output is spendable
         for i in range(100):
-            block = create_block(self.tip, create_coinbase(height), self.block_time, version=0x20000000)
+            block = create_block(self.tip, create_coinbase(height), self.block_time)
             block.solve()
             self.blocks.append(block)
             self.tip = block.sha256
@@ -137,7 +134,7 @@ class AssumeValidTest(BitcoinTestFramework):
         tx.vout.append(CTxOut(49 * 100000000, CScript([OP_TRUE])))
         tx.calc_sha256()
 
-        block102 = create_block(self.tip, create_coinbase(height), self.block_time, version=0x20000000)
+        block102 = create_block(self.tip, create_coinbase(height), self.block_time)
         self.block_time += 1
         block102.vtx.extend([tx])
         block102.hashMerkleRoot = block102.calc_merkle_root()
@@ -151,7 +148,7 @@ class AssumeValidTest(BitcoinTestFramework):
         # Bury the assumed valid block 2100 deep
         for i in range(2100):
             block = create_block(self.tip, create_coinbase(height), self.block_time)
-            block.nVersion = 0x20000002
+            block.nVersion = 4
             block.solve()
             self.blocks.append(block)
             self.tip = block.sha256
@@ -183,7 +180,8 @@ class AssumeValidTest(BitcoinTestFramework):
         for i in range(2202):
             p2p1.send_message(msg_block(self.blocks[i]))
         # Syncing 2200 blocks can take a while on slow systems. Give it plenty of time to sync.
-        p2p1.sync_with_ping(200)
+        self.log.info(hex(block102.sha256))
+        p2p1.sync_with_ping(960)
         assert_equal(self.nodes[1].getblock(self.nodes[1].getbestblockhash())['height'], 2202)
 
         # Send blocks to node2. Block 102 will be rejected.
