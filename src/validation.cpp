@@ -1238,21 +1238,13 @@ bool ReadRawBlockFromDisk(std::vector<uint8_t>& block, const CBlockIndex* pindex
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
-    int halvings = (nHeight + 306960) / consensusParams.nSubsidyHalvingInterval;
+    int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
 
-    if (Params().NetworkIDString() == CBaseChainParams::REGTEST)
-        halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
+    // Force block reward to one when right shift is undefined.
+    if (halvings >= 40)
+        return 1;
 
-    // Force block reward to zero when right shift is undefined.
-    if (halvings >= 64)
-        return 0;
-
-    CAmount nSubsidy = 200 * COIN;
-    
-    if (nHeight >= consensusParams.nForkThree)
-        nSubsidy = 80 * COIN;
-
-    // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
+    // Subsidy is cut in half every halvings which will occur approximately every 4 years.
     nSubsidy >>= halvings;
     return nSubsidy;
 }
@@ -4324,15 +4316,6 @@ bool CChainState::ReplayBlocks(const CChainParams& params)
             // the result is still a version of the UTXO set with the effects of that block undone.
         }
         pindexOld = pindexOld->pprev;
-    }
-
-    // Roll forward from the forking point to the new tip.
-    int nForkHeight = pindexFork ? pindexFork->nHeight : 0;
-    for (int nHeight = nForkHeight + 1; nHeight <= pindexNew->nHeight; ++nHeight) {
-        const CBlockIndex* pindex = pindexNew->GetAncestor(nHeight);
-        LogPrintf("Rolling forward %s (%i)\n", pindex->GetBlockHash().ToString(), nHeight);
-        uiInterface.ShowProgress(_("Replaying blocks...").translated, (int) ((nHeight - nForkHeight) * 100.0 / (pindexNew->nHeight - nForkHeight)) , false);
-        if (!RollforwardBlock(pindex, cache, params)) return false;
     }
 
     cache.SetBestBlock(pindexNew->GetBlockHash());
