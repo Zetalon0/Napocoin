@@ -65,7 +65,7 @@ public:
         consensus.powNeoScryptLimit = uint256S("0000003fffff0000000000000000000000000000000000000000000000000000");     
 		consensus.nPowTargetTimespan =  5;
         consensus.nPowTargetSpacing = 5;
-		 consensus.checkpointPubKey = "0";
+		consensus.checkpointPubKey = "048a8b6b934a853e68ac21a1bd7d539551e1cbf224f79278b85fd9e8e2f33044ff865e26adb3a93a8e4d197e69d158f30cba6783fc3ba4a3441a3779eea19f51a2";
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 3; // 75% of 4
@@ -101,7 +101,6 @@ public:
         m_assumed_blockchain_size = 2;
         m_assumed_chain_state_size = 2;
 
-        consensus.nForkOne = 62000;
         consensus.nTimeLimit = 2236032;
         consensus.nNeoScryptFork = 1664603435;
 
@@ -197,7 +196,6 @@ public:
         m_assumed_blockchain_size = 2;
         m_assumed_chain_state_size = 1;
 
-        consensus.nForkOne =0;
         consensus.nTimeLimit = 100;
         consensus.nNeoScryptFork = 1664603621;
 
@@ -293,7 +291,6 @@ public:
 
         UpdateActivationParametersFromArgs(args);
 
-        consensus.nForkOne =0;
         consensus.nTimeLimit = std::numeric_limits<int>::max();
         consensus.nNeoScryptFork = 1664604619;
 
