@@ -1241,10 +1241,14 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     if (Params().NetworkIDString() == CBaseChainParams::REGTEST)
         halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
 
-    // Force block reward to one when right shift is undefined.
-    if (halvings >= 40)
+    //anti-halving //deterministic inflation
+    if (halvings >= 31 && halvings <= 35){
         return 1;
-
+    } else if (halvings >= 36 && halvings <= 40){
+        return 10;
+    } (halvings > 40){
+        return 25;
+    }
     CAmount nSubsidy = 1400 * COIN;
 
     // Subsidy is cut in half approximately every 6 months.
