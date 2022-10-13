@@ -85,11 +85,17 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = 0x67;
-        pchMessageStart[1] = 0x2c;
-        pchMessageStart[2] = 0x37;
-        pchMessageStart[3] = 0x07;
+		// End of the bridge from old to new pchMessageStart
+        pchMessageStartOld[0] = 0x67;
+        pchMessageStartOld[1] = 0x2c;
+        pchMessageStartOld[2] = 0x37;
+        pchMessageStartOld[3] = 0x07;
 
+        pchMessageStart[0] = 0xfa;
+        pchMessageStart[1] = 0xc4;
+        pchMessageStart[2] = 0xb8;
+        pchMessageStart[3] = 0xds;
+		
         nDefaultPort = 8712;
         nPruneAfterHeight = 100000;
         m_assumed_blockchain_size = 2;
@@ -176,10 +182,15 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x098d60773fa4b95e400247f0b95eb561d5ca069c6372644c9964616eed1a5b5a"); 
 
-        pchMessageStart[0] = 0xa2;
-        pchMessageStart[1] = 0xfe;
-        pchMessageStart[2] = 0xcf;
-        pchMessageStart[3] = 0xce;
+        pchMessageStartOld[0] = 0xa2;
+        pchMessageStartOld[1] = 0xfe;
+        pchMessageStartOld[2] = 0xcf;
+        pchMessageStartOld[3] = 0xce;
+		
+        pchMessageStart[0] = 0xdb;
+        pchMessageStart[1] = 0xad;
+        pchMessageStart[2] = 0xa3;
+        pchMessageStart[3] = 0xbb;
 
         nDefaultPort = 18712;
         nPruneAfterHeight = 1000;
@@ -265,12 +276,16 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
 
-        pchMessageStart[0] = 0xfa;
-        pchMessageStart[1] = 0xbf;
-        pchMessageStart[2] = 0xb5;
-        pchMessageStart[3] = 0xda;
+        pchMessageStartOld[0] = 0xfa;
+        pchMessageStartOld[1] = 0xbf;
+        pchMessageStartOld[2] = 0xb5;
+        pchMessageStartOld[3] = 0xda;
 
-
+        pchMessageStart[0] = 0xdb;
+        pchMessageStart[1] = 0xad;
+        pchMessageStart[2] = 0xa3;
+        pchMessageStart[3] = 0xbb;
+		
         nDefaultPort = 19444;
         nPruneAfterHeight = 1000;
         m_assumed_blockchain_size = 0;
