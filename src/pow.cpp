@@ -26,10 +26,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         nTargetSpacing = 5; // 5 seconds block
     }
 
-
-    bool fHardFork = nHeight == params.nForkOne
     int64_t nInterval = nTargetTimespan / nTargetSpacing;
 
+    bool fHardFork = nHeight == params.nForkOne;
+	 
     if (params.fPowAllowMinDifficultyBlocks)
     {
         // Special difficulty rule for testnet:

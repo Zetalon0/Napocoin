@@ -23,8 +23,8 @@ static void TestBlockSubsidyHalvings(const Consensus::Params& consensusParams)
     bool reduced = true;
     for (int nHalvings = 0; nHalvings < maxHalvings; nHalvings++) {
         int nHeight = nHalvings * consensusParams.nSubsidyHalvingInterval - 306960;
-        if (nHeight + 306960 >= consensusParams.nForkThree && reduced) {
-            nPreviousSubsidy = 80 * COIN;
+        if (nHeight + 306960 >= consensusParams.nForkOne && reduced) {
+            nPreviousSubsidy = 1400 * COIN;
             reduced = false;
         }
         CAmount nSubsidy = GetBlockSubsidy(nHeight + 306960, consensusParams);
