@@ -21,7 +21,7 @@ Napocoin is the cryptocurrency built for fast transactions
  - burn transation fee
  - subsidy halves in 3.5 million  blocks (~6 months)
  - retarget difficulty every block with 25% damping
- - 256 MB block size
+ - 256 MB max block size
  - Default Feathercoin network port is 8712
  - Default RPC mining port is 8711
  - 51200 TPS
