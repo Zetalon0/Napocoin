@@ -1,25 +1,22 @@
 Napocoin integration/staging tree
 ================================
 
+https://napocoin.net/
+
+Copyright (c) 2009-2014 Bitcoin Developers
+Copyright (c) 2011-2014 Litecoin Developers
+Copyright (c) 2022 Napocoin Developers
+
 What is Napocoin?
 ----------------
 
 Napocoin is the cryptocurrency built for fast transactions
- - NeoScrypt Algorithm
- - Current Gen ASIC resistance
- - eHRC (enhanced Hash Rate Compensation)
- - ACP (Advanced Checkpointing)
- - SegWit (Segregated Witness) *
- - CLTV (CheckLockTimeVerify) *
- - CSV (Check Sequence Verify) *
- - 5 seconds block targets
+ - 10 seconds block targets
+ - subsidy halves in 3.5 million  blocks (~1.1 years)
+ - ~9.8 billion total coins
  - 1400 coins per block
- - subsidy halves in 3.5 million  blocks (~6 months)
- - retarget difficulty every block with 25% damping
- - 256 MB block size
- - Default Feathercoin network port is 8712
- - Default RPC mining port is 8711
- - 51200 TPS
+ - retarget difficulty every block
+ - 64 MB block size
 
 For more information, as well as an immediately useable, binary version of
 the Napocoin client sofware, see https://napocoin.net/.
