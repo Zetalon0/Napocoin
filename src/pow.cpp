@@ -18,9 +18,17 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     int nHeight = pindexLast->nHeight + 1; 
     int nTargetTimespan = params.nPowTargetTimespan;
     int nTargetSpacing = params.nPowTargetSpacing;
+	
+    // 4th Hard fork, reset difficulty
+    if (nHeight == params.nForkOne) {
+        return UintToArith256(params.powNeoScryptLimit).GetCompact();
+        nTargetTimespan = 5; // 5 seconds timespan
+        nTargetSpacing = 5; // 5 seconds block
+    }
 
     int64_t nInterval = nTargetTimespan / nTargetSpacing;
 
+    bool fHardFork = nHeight == params.nForkOne;
 	 
     if (params.fPowAllowMinDifficultyBlocks)
     {
@@ -53,6 +61,19 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     int64_t nInterval = nTargetTimespan / nTargetSpacing;
     int nActualTimespanAvg = 0;
 
+    if (nHeight >= params.nForkOne) {
+        nInterval = 1;
+
+        int pindexFirstShortTime = 0;
+        int pindexFirstMediumTime = 0;
+        const CBlockIndex* pindexFirstLong = pindexLast;
+        for(int i = 0; pindexFirstLong && i < nInterval && i < nHeight - 1; i++) {
+            pindexFirstLong = pindexFirstLong->pprev;
+            if (i == 14)
+                pindexFirstShortTime = pindexFirstLong->GetBlockTime();
+            if (i == 119)
+                pindexFirstMediumTime = pindexFirstLong->GetBlockTime();
+        }
         int nActualTimespanShort = (pindexLast->GetBlockTime() - pindexFirstShortTime) / 15;
         int nActualTimespanMedium = (pindexLast->GetBlockTime() - pindexFirstMediumTime)/120;
         int nActualTimespanLong = (pindexLast->GetBlockTime() - pindexFirstLong->GetBlockTime())/480;
@@ -60,7 +81,13 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
         nActualTimespanAvg = (nActualTimespanShort + nActualTimespanMedium + nActualTimespanLong) / 3;
     }
 
-    // The initial settings (1.0 difficulty limiter)
+    if (nHeight >= params.nForkOne) {
+        // Apply .25 damping
+        nActualTimespan = nActualTimespanAvg + 3 * nTargetTimespan;
+        nActualTimespan /= 4;
+    }
+
+    // The initial settings (4.0 difficulty limiter)
     int nActualTimespanMax = nTargetTimespan*1;
     int nActualTimespanMin = nTargetTimespan/1;
 

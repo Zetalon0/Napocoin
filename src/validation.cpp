@@ -4319,6 +4319,15 @@ bool CChainState::ReplayBlocks(const CChainParams& params)
         pindexOld = pindexOld->pprev;
     }
 
+    // Roll forward from the forking point to the new tip.
+    int nForkHeight = pindexFork ? pindexFork->nHeight : 0;
+    for (int nHeight = nForkHeight + 1; nHeight <= pindexNew->nHeight; ++nHeight) {
+        const CBlockIndex* pindex = pindexNew->GetAncestor(nHeight);
+        LogPrintf("Rolling forward %s (%i)\n", pindex->GetBlockHash().ToString(), nHeight);
+        uiInterface.ShowProgress(_("Replaying blocks...").translated, (int) ((nHeight - nForkHeight) * 100.0 / (pindexNew->nHeight - nForkHeight)) , false);
+        if (!RollforwardBlock(pindex, cache, params)) return false;
+    }
+
     cache.SetBestBlock(pindexNew->GetBlockHash());
     cache.Flush();
     uiInterface.ShowProgress("", 100, false);
