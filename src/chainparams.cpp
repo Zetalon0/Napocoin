@@ -65,7 +65,7 @@ public:
         consensus.powNeoScryptLimit = uint256S("0000003fffff0000000000000000000000000000000000000000000000000000");     
 		consensus.nPowTargetTimespan =  5;
         consensus.nPowTargetSpacing = 5;
-		 consensus.checkpointPubKey = "0";
+		 consensus.checkpointPubKey = "048a8b6b934a853e68ac21a1bd7d539551e1cbf224f79278b85fd9e8e2f33044ff865e26adb3a93a8e4d197e69d158f30cba6783fc3ba4a3441a3779eea19f51a2";
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 3; // 75% of 4
