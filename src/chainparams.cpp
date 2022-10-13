@@ -102,7 +102,7 @@ public:
         m_assumed_chain_state_size = 2;
 
         consensus.nTimeLimit = 2236032;
-        consensus.nNeoScryptFork = 1664603435;
+
 
         genesis = CreateGenesisBlock(1664603434, 430868, 0x1e0ffff0, 1, 1400 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -197,7 +197,6 @@ public:
         m_assumed_chain_state_size = 1;
 
         consensus.nTimeLimit = 100;
-        consensus.nNeoScryptFork = 1664603621;
 
         genesis = CreateGenesisBlock(1664603620, 2363607, 0x1e0ffff0, 1, 1400 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -292,7 +291,6 @@ public:
         UpdateActivationParametersFromArgs(args);
 
         consensus.nTimeLimit = std::numeric_limits<int>::max();
-        consensus.nNeoScryptFork = 1664604619;
 
         genesis = CreateGenesisBlock(1664604618, 0, 0x207fffff, 1, 1400 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
