@@ -1,48 +1,57 @@
-
-Napocoin Core
-================
-
-What is Napocoin?
---------------------
-
-Napocoin is a fork of the Bitcoin core project. It contains its own
-set up of certain parameters, such as block times and extra features such
-as enhanced mining difficulty calculations, protection against 51% attacks
-and its own hashing algorithm.
-
-Napocoin is an open source project and additional changes and fixes to those in
-the source code are managed by the community.
-
-Telegram: https://t.me/NapocoinOfficial  
-Twitter: https://twitter.com/Napocoin  
-Forum: http://forum.napocoin.net/
-
+Napocoin integration/staging tree
+================================
 
 What is Napocoin?
 ----------------
 
-Napocoin is an experimental digital currency that enables instant payments to
-anyone, anywhere in the world. Napocoin uses peer-to-peer technology to operate
-with no central authority: managing transactions and issuing money are carried
-out collectively by the network. Napocoin Core is the name of open source
-software which enables the use of this currency.
+Napocoin is the cryptocurrency built for fast transactions
+ - NeoScrypt Algorithm
+ - Current Gen ASIC resistance
+ - eHRC (enhanced Hash Rate Compensation)
+ - ACP (Advanced Checkpointing)
+ - SegWit (Segregated Witness) *
+ - CLTV (CheckLockTimeVerify) *
+ - CSV (Check Sequence Verify) *
+ - 5 seconds block targets
+ - 1400 coins per block
+ - deterministic inflation 
+    - 1 coin/sec after 30th halvings
+    - 10 coin/sec after 35th halvings
+    - 25 coin/sec after 40th halvings
+ - burn transation fee
+ - subsidy halves in 3.5 million  blocks (~6 months)
+ - retarget difficulty every block with 25% damping
+ - 256 MB max block size
+ - Default Feathercoin network port is 8712
+ - Default RPC mining port is 8711
+ - 51200 TPS
 
 For more information, as well as an immediately useable, binary version of
-the Napocoin Core software, see these [downloads](https://github.com/Zetalon0/Napocoin/releases).
-
+the Napocoin client sofware, see https://napocoin.net/.
 
 License
 -------
 
-Napocoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
-information or see https://opensource.org/licenses/MIT.
+Napocoin is released under the terms of the MIT license. See `COPYING` for more
+information or see http://opensource.org/licenses/MIT.
 
-
-Development Process
+Development process
 -------------------
 
-The latest `master` branch is regularly built and tested, but is not guaranteed to be
-completely stable. [Tags](https://github.com/Napocoin/Napocoin/tags) are created
-regularly to indicate new official, stable release versions of Napocoin Core.
+Developers work in their own trees, then submit pull requests when they think
+their feature or bug fix is ready.
 
-The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md).
+If it is a simple/trivial/non-controversial change, then one of the Napocoin
+development team members simply pulls it.
+
+If it is a *more complicated or potentially controversial* change, then the patch
+submitter will be asked to start a discussion with the devs and community.
+
+The patch will be accepted if there is broad consensus that it is a good thing.
+Developers should expect to rework and resubmit patches if the code doesn't
+match the project's coding conventions (see `doc/coding.txt`) or are
+controversial.
+
+The `master` branch is regularly built and tested, but is not guaranteed to be
+completely stable. [Tags](https://github.com/Zetalon0/Napocoin/tags) are created
+regularly to indicate new official, stable release versions of Napocoin.
