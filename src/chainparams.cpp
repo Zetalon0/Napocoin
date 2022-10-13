@@ -68,7 +68,7 @@ public:
 		 consensus.checkpointPubKey = "0";
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 1; // 75% of 1
+        consensus.nRuleChangeActivationThreshold = 3; // 75% of 4
         consensus.nMinerConfirmationWindow = 4; // nPowTargetTimespan / nPowTargetSpacing * 4
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
@@ -101,8 +101,9 @@ public:
         m_assumed_blockchain_size = 2;
         m_assumed_chain_state_size = 2;
 
+        consensus.nForkOne = 62000;
         consensus.nTimeLimit = 2236032;
-        consensus.nNeoScryptFork = 1;
+        consensus.nNeoScryptFork = 1664603435;
 
         genesis = CreateGenesisBlock(1664603434, 430868, 0x1e0ffff0, 1, 1400 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -197,8 +198,9 @@ public:
         m_assumed_blockchain_size = 2;
         m_assumed_chain_state_size = 1;
 
+        consensus.nForkOne =0;
         consensus.nTimeLimit = 100;
-        consensus.nNeoScryptFork = 1;
+        consensus.nNeoScryptFork = 1664603621;
 
         genesis = CreateGenesisBlock(1664603620, 2363607, 0x1e0ffff0, 1, 1400 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -293,8 +295,9 @@ public:
 
         UpdateActivationParametersFromArgs(args);
 
+        consensus.nForkOne =0;
         consensus.nTimeLimit = std::numeric_limits<int>::max();
-        consensus.nNeoScryptFork = 1;
+        consensus.nNeoScryptFork = 1664604619;
 
         genesis = CreateGenesisBlock(1664604618, 0, 0x207fffff, 1, 1400 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();

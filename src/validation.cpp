@@ -507,7 +507,7 @@ private:
     // Compare a package's feerate against minimum allowed.
     bool CheckFeeRate(size_t package_size, CAmount package_fee, CValidationState& state)
     {
-        CAmount mempoolRejectFee = m_pool.GetMinFee(gArgs.GetArg("-maxmempool", DEFAULT_MAX_MEMPOOL_SIZE) * 5000000).GetFee(package_size);
+        CAmount mempoolRejectFee = m_pool.GetMinFee(gArgs.GetArg("-maxmempool", DEFAULT_MAX_MEMPOOL_SIZE) * 1000000).GetFee(package_size);
         if (mempoolRejectFee > 0 && package_fee < mempoolRejectFee) {
             return state.Invalid(ValidationInvalidReason::TX_MEMPOOL_POLICY, false, REJECT_INSUFFICIENTFEE, "mempool min fee not met", strprintf("%d < %d", package_fee, mempoolRejectFee));
         }
@@ -1238,13 +1238,18 @@ bool ReadRawBlockFromDisk(std::vector<uint8_t>& block, const CBlockIndex* pindex
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
-    int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
+    int halvings = (nHeight + 306960) / consensusParams.nSubsidyHalvingInterval;
+
+    if (Params().NetworkIDString() == CBaseChainParams::REGTEST)
+        halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
 
     // Force block reward to one when right shift is undefined.
     if (halvings >= 40)
         return 1;
 
-    // Subsidy is cut in half every halvings which will occur approximately every 4 years.
+    CAmount nSubsidy = 1400 * COIN;
+
+    // Subsidy is cut in half approximately every 6 months.
     nSubsidy >>= halvings;
     return nSubsidy;
 }
@@ -4316,6 +4321,15 @@ bool CChainState::ReplayBlocks(const CChainParams& params)
             // the result is still a version of the UTXO set with the effects of that block undone.
         }
         pindexOld = pindexOld->pprev;
+    }
+
+    // Roll forward from the forking point to the new tip.
+    int nForkHeight = pindexFork ? pindexFork->nHeight : 0;
+    for (int nHeight = nForkHeight + 1; nHeight <= pindexNew->nHeight; ++nHeight) {
+        const CBlockIndex* pindex = pindexNew->GetAncestor(nHeight);
+        LogPrintf("Rolling forward %s (%i)\n", pindex->GetBlockHash().ToString(), nHeight);
+        uiInterface.ShowProgress(_("Replaying blocks...").translated, (int) ((nHeight - nForkHeight) * 100.0 / (pindexNew->nHeight - nForkHeight)) , false);
+        if (!RollforwardBlock(pindex, cache, params)) return false;
     }
 
     cache.SetBestBlock(pindexNew->GetBlockHash());
