@@ -41,8 +41,8 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
 
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "NY Times 05/Oct/2011 Steve Jobs, Apple’s Visionary, Dies at 56";
-    const CScript genesisOutputScript = CScript() << ParseHex("040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9") << OP_CHECKSIG;
+    const char* pszTimestamp = "Zetalon 02082022";
+    const CScript genesisOutputScript = CScript() << ParseHex("048a8b6b934a853e68ac21a1bd7d539551e1cbf224f79278b85fd9e8e2f33044ff865e26adb3a93a8e4d197e69d158f30cba6783fc3ba4a3441a3779eea19f51a2") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
@@ -54,14 +54,18 @@ public:
     CMainParams() {
         strNetworkID = "main";
         consensus.nSubsidyHalvingInterval = 3500000;
-        consensus.BIP16Height = 0; 
         consensus.BIP34Height = 0;
         consensus.BIP34Hash = uint256();
         consensus.BIP65Height = 0; 
         consensus.BIP66Height = 0; 
+		consensus.CSVHeight = 0; 
+        consensus.SegwitHeight = 0; 
+		consensus.MinBIP9WarningHeight = 0;
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); 
-        consensus.nPowTargetTimespan =  10;
-        consensus.nPowTargetSpacing = 10;
+        consensus.powNeoScryptLimit = uint256S("0000003fffff0000000000000000000000000000000000000000000000000000");     
+		consensus.nPowTargetTimespan =  5;
+        consensus.nPowTargetSpacing = 5;
+		 consensus.checkpointPubKey = "0";
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1; // 75% of 1
@@ -74,7 +78,7 @@ public:
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000a90c3cad43e87a7");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0xe29c854a0a54ac2c3f6b97e0416a0a7f17df6f80ecf4fa6eb3faa7ec1fceffb6"); //3275900
+        consensus.defaultAssumeValid = uint256S("0x1c14f960c7bb3a61e6da183505add89d4e7c2da1efc4ec06c81174987dd984ba"); //0
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -85,12 +89,6 @@ public:
         pchMessageStart[1] = 0x2c;
         pchMessageStart[2] = 0x37;
         pchMessageStart[3] = 0x07;
-
-        // End of the bridge from old to new pchMessageStart
-        pchMessageStartOld[0] = 0xfb;
-        pchMessageStartOld[1] = 0xc0;
-        pchMessageStartOld[2] = 0xb6;
-        pchMessageStartOld[3] = 0xdb;
 
         nDefaultPort = 8712;
         nPruneAfterHeight = 100000;
@@ -120,7 +118,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
-        bech32_hrp = "fc";
+        bech32_hrp = "nap";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
 
@@ -163,7 +161,7 @@ public:
         consensus.powNeoScryptLimit = uint256();
         consensus.nPowTargetTimespan = 5;
         consensus.nPowTargetSpacing = 5;
-        consensus.checkpointPubKey = "0421c27bb6580b05dcda1f47e59274489f094a3e85d96bbc38d5befd10eee97397ec8a93b6d8d79e8370239a8f39adf66322b41dafe83066bbcee6144e4c41a699";
+        consensus.checkpointPubKey = "0";
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 375; // 75% for testchains
@@ -173,24 +171,19 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00");
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000200020");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x00"); //1354312
+        consensus.defaultAssumeValid = uint256S("0x098d60773fa4b95e400247f0b95eb561d5ca069c6372644c9964616eed1a5b5a"); 
 
-        pchMessageStart[0] = 0x91;
-        pchMessageStart[1] = 0x65;
-        pchMessageStart[2] = 0x6a;
-        pchMessageStart[3] = 0x71;
-
-        pchMessageStartOld[0] = 0xda;
-        pchMessageStartOld[1] = 0xaf;
-        pchMessageStartOld[2] = 0xa5;
-        pchMessageStartOld[3] = 0xba;
+        pchMessageStart[0] = 0xa2;
+        pchMessageStart[1] = 0xfe;
+        pchMessageStart[2] = 0xcf;
+        pchMessageStart[3] = 0xce;
 
         nDefaultPort = 18712;
         nPruneAfterHeight = 1000;
-        m_assumed_blockchain_size = 1;
+        m_assumed_blockchain_size = 2;
         m_assumed_chain_state_size = 1;
 
         consensus.nTimeLimit = 100;
@@ -204,16 +197,17 @@ public:
         vFixedSeeds.clear();
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
-        vSeeds.emplace_back("testnet-explorer2.napocoin.net");
-        vSeeds.emplace_back("testnet-dnsseed.napocoin.net");
+        //vSeeds.emplace_back("n2.napocoin.net");
+        //vSeeds.emplace_back("n1.napocoin.net");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
+        base58Prefixes[SCRIPT_ADDRESS2] = std::vector<unsigned char>(1,80);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "tf";
+        bech32_hrp = "tn";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
@@ -254,8 +248,8 @@ public:
         consensus.MinBIP9WarningHeight = 0;
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powNeoScryptLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 10; //1 block
-        consensus.nPowTargetSpacing = 10 * 60;
+        consensus.nPowTargetTimespan = 5; //1 block
+        consensus.nPowTargetSpacing = 5;
         consensus.checkpointPubKey = "04f7908c00071227442382eeeb699be0cf4837ce63c6dfb8efd63e240ba27906f30b708934ad1831f26713437c945eae05e42d2f2400baf3310b60caf0d7e39cab";
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;
@@ -271,17 +265,13 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
 
-        pchMessageStart[0] = 0xd1;
-        pchMessageStart[1] = 0xa5;
-        pchMessageStart[2] = 0xaa;
-        pchMessageStart[3] = 0xb1;
+        pchMessageStart[0] = 0xfa;
+        pchMessageStart[1] = 0xbf;
+        pchMessageStart[2] = 0xb5;
+        pchMessageStart[3] = 0xda;
 
-        pchMessageStartOld[0] = 0xda;
-        pchMessageStartOld[1] = 0xaf;
-        pchMessageStartOld[2] = 0xa5;
-        pchMessageStartOld[3] = 0xba;
 
-        nDefaultPort = 18446;
+        nDefaultPort = 19444;
         nPruneAfterHeight = 1000;
         m_assumed_blockchain_size = 0;
         m_assumed_chain_state_size = 0;
@@ -321,7 +311,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "fcrt";
+        bech32_hrp = "rnap";
     }
 
     /**
