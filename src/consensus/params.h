@@ -81,6 +81,7 @@ struct Params {
     int64_t nPowTargetTimespan;
     int nForkOne;
     int nTimeLimit;
+    unsigned int nNeoScryptFork;
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
