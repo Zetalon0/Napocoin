@@ -1,4 +1,5 @@
-// Copyright (c) 2013-2019 Napocoin developers
+// Copyright (c) 2022 Napocoin developers
+// Copyright (c) 2013-2019 Feathercoin developers
 // Copyright (c) 2011-2013 PPCoin developers
 // Copyright (c) 2013 Primecoin developers
 // Distributed under conditional MIT/X11 open source software license

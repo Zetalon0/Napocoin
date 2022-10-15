@@ -16,20 +16,21 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
     int nHeight = pindexLast->nHeight + 1; 
+    // 1th Hard fork, reset difficulty
+    if (nHeight == params.nForkOne)
+        return UintToArith256(params.powNeoScryptLimit).GetCompact();
     int nTargetTimespan = params.nPowTargetTimespan;
     int nTargetSpacing = params.nPowTargetSpacing;
-	
-    // 4th Hard fork, reset difficulty
-    if (nHeight == params.nForkOne) {
-        return UintToArith256(params.powNeoScryptLimit).GetCompact();
-        nTargetTimespan = 5; // 5 seconds timespan
-        nTargetSpacing = 5; // 5 seconds block
-    }
 
     int64_t nInterval = nTargetTimespan / nTargetSpacing;
 
     bool fHardFork = nHeight == params.nForkOne;
-	 
+    // Only change once per difficulty adjustment interval
+    if ((pindexLast->nHeight+1) % nInterval != 0 && !fHardFork && nHeight < params.nForkOne)
+    {
+        return pindexLast->nBits;
+    }
+
     if (params.fPowAllowMinDifficultyBlocks)
     {
         // Special difficulty rule for testnet:
