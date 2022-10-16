@@ -75,7 +75,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000a90c3cad43e87a7");
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000200020");
 
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x1c14f960c7bb3a61e6da183505add89d4e7c2da1efc4ec06c81174987dd984ba"); //0
@@ -139,7 +139,6 @@ public:
         };
 
         chainTxData = ChainTxData{
-            // Data from rpc: getchaintxstats 4096 e29c854a0a54ac2c3f6b97e0416a0a7f17df6f80ecf4fa6eb3faa7ec1fceffb6
             /* nTime    */ 1664603434,
             /* nTxCount */ 0,
             /* dTxRate  */ 0
@@ -155,22 +154,22 @@ public:
     CTestNetParams() {
         strNetworkID = "test";
         consensus.nSubsidyHalvingInterval = 3500000;
-        consensus.BIP34Height = 16;
+        consensus.BIP34Height = 76;
         consensus.BIP34Hash = uint256();
-        consensus.BIP65Height = 0;
-        consensus.BIP66Height = 0;
+        consensus.BIP65Height = 76;
+        consensus.BIP66Height = 76;
         consensus.CSVHeight = 1;
         consensus.SegwitHeight = 1;
         consensus.MinBIP9WarningHeight = 501; // segwit activation height + miner confirmation window
-        consensus.powLimit = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powNeoScryptLimit = uint256();
         consensus.nPowTargetTimespan = 5;
         consensus.nPowTargetSpacing = 5;
         consensus.checkpointPubKey = "0";
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 375; // 75% for testchains
-        consensus.nMinerConfirmationWindow = 500;
+        consensus.nRuleChangeActivationThreshold = 1; // 100% for testchains
+        consensus.nMinerConfirmationWindow = 1;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
