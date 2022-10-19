@@ -1,5 +1,4 @@
 // Copyright (c) 2009-2018 The Bitcoin Core developers
-// Copyright (c) 2022 The Napocoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -38,7 +37,7 @@ public:
     bool randomize_credentials;
 };
 
-enum Network ParseNetwork(std::string net);
+enum Network ParseNetwork(const std::string& net);
 std::string GetNetworkName(enum Network net);
 bool SetProxy(enum Network net, const proxyType &addrProxy);
 bool GetProxy(enum Network net, proxyType &proxyInfoOut);

@@ -1,27 +1,27 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2018 The Bitcoin Core developers
-// Copyright (c) 2022 The Napocoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <primitives/block.h>
 
 #include <hash.h>
+#include <crypto/neoscrypt.h>
 #include <tinyformat.h>
-#include <util/strencodings.h>
 #include <crypto/common.h>
-#include <crypto/scrypt.h>
 
 uint256 CBlockHeader::GetHash() const
 {
     return SerializeHash(*this);
 }
 
-uint256 CBlockHeader::GetPoWHash() const
+uint256 CBlockHeader::GetPoWHash(unsigned int profile) const
 {
-    uint256 thash;
-    scrypt_1024_1_1_256(BEGIN(nVersion), BEGIN(thash));
-    return thash;
+    uint256 hash;
+
+    neoscrypt((unsigned char *) &nVersion, (unsigned char *) &hash, profile);
+
+    return(hash);
 }
 
 std::string CBlock::ToString() const
