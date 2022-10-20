@@ -1,7 +1,7 @@
 Napocoin integration/staging tree
 ================================
 
-https://napocoin.net/
+[https://napocoin.net/](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 Copyright (c) 2009-2014 Bitcoin Developers
 Copyright (c) 2011-2014 Litecoin Developers
