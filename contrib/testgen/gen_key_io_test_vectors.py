@@ -19,15 +19,13 @@ from binascii import b2a_hex
 from segwit_addr import bech32_encode, decode, convertbits, CHARSET
 
 # key types
-PUBKEY_ADDRESS = 54
+PUBKEY_ADDRESS = 14
 SCRIPT_ADDRESS = 5
-SCRIPT_ADDRESS2 = 53
 PUBKEY_ADDRESS_TEST = 111
 SCRIPT_ADDRESS_TEST = 196
-SCRIPT_ADDRESS_TEST2 = 80
 PUBKEY_ADDRESS_REGTEST = 111
 SCRIPT_ADDRESS_REGTEST = 196
-PRIVKEY = 181
+PRIVKEY = 142
 PRIVKEY_TEST = 239
 PRIVKEY_REGTEST = 239
 
@@ -55,10 +53,8 @@ templates = [
   #                                  None = N/A
   ((PUBKEY_ADDRESS,),         20, (),   (False, 'main',    None,  None), pubkey_prefix, pubkey_suffix),
   ((SCRIPT_ADDRESS,),         20, (),   (False, 'main',    None,  None), script_prefix, script_suffix),
-  ((SCRIPT_ADDRESS2,),        20, (),   (False, 'main',    None,  None), script_prefix, script_suffix),
   ((PUBKEY_ADDRESS_TEST,),    20, (),   (False, 'test',    None,  None), pubkey_prefix, pubkey_suffix),
   ((SCRIPT_ADDRESS_TEST,),    20, (),   (False, 'test',    None,  None), script_prefix, script_suffix),
-  ((SCRIPT_ADDRESS_TEST2,),   20, (),   (False, 'test',    None,  None), script_prefix, script_suffix),
   ((PUBKEY_ADDRESS_REGTEST,), 20, (),   (False, 'regtest', None,  None), pubkey_prefix, pubkey_suffix),
   ((SCRIPT_ADDRESS_REGTEST,), 20, (),   (False, 'regtest', None,  None), script_prefix, script_suffix),
   ((PRIVKEY,),                32, (),   (True,  'main',    False, None), (),            ()),
@@ -71,28 +67,28 @@ templates = [
 # templates for valid bech32 sequences
 bech32_templates = [
   # hrp, version, witprog_size, metadata, output_prefix
-  ('nap',   0, 20, (False, 'main',    None, True), p2wpkh_prefix),
-  ('nap',   0, 32, (False, 'main',    None, True), p2wsh_prefix),
-  ('nap',   1,  2, (False, 'main',    None, True), (OP_1, 2)),
-  ('tnap',  0, 20, (False, 'test',    None, True), p2wpkh_prefix),
-  ('tnap',  0, 32, (False, 'test',    None, True), p2wsh_prefix),
-  ('tnap',  2, 16, (False, 'test',    None, True), (OP_2, 16)),
-  ('rnap',  0, 20, (False, 'regtest', None, True), p2wpkh_prefix),
-  ('rnap',  0, 32, (False, 'regtest', None, True), p2wsh_prefix),
-  ('rnap', 16, 40, (False, 'regtest', None, True), (OP_16, 40))
+  ('fc',    0, 20, (False, 'main',    None, True), p2wpkh_prefix),
+  ('fc',    0, 32, (False, 'main',    None, True), p2wsh_prefix),
+  ('fc',    1,  2, (False, 'main',    None, True), (OP_1, 2)),
+  ('tf',    0, 20, (False, 'test',    None, True), p2wpkh_prefix),
+  ('tf',    0, 32, (False, 'test',    None, True), p2wsh_prefix),
+  ('tf',    2, 16, (False, 'test',    None, True), (OP_2, 16)),
+  ('fcrt',  0, 20, (False, 'regtest', None, True), p2wpkh_prefix),
+  ('fcrt',  0, 32, (False, 'regtest', None, True), p2wsh_prefix),
+  ('fcrt', 16, 40, (False, 'regtest', None, True), (OP_16, 40))
 ]
 # templates for invalid bech32 sequences
 bech32_ng_templates = [
   # hrp, version, witprog_size, invalid_bech32, invalid_checksum, invalid_char
   ('tc',    0, 20, False, False, False),
-  ('tnap',  17, 32, False, False, False),
-  ('rnap',  3,  1, False, False, False),
-  ('nap',   15, 41, False, False, False),
-  ('tnap',  0, 16, False, False, False),
-  ('rnap',  0, 32, True,  False, False),
-  ('nap',   0, 16, True,  False, False),
-  ('tnap',  0, 32, False, True,  False),
-  ('rnap',  0, 20, False, False, True)
+  ('tf',   17, 32, False, False, False),
+  ('fcrt',  3,  1, False, False, False),
+  ('fc',   15, 41, False, False, False),
+  ('tf',    0, 16, False, False, False),
+  ('fcrt',  0, 32, True,  False, False),
+  ('fc',    0, 16, True,  False, False),
+  ('tf',    0, 32, False, True,  False),
+  ('fcrt',  0, 20, False, False, True)
 ]
 
 def is_valid(v):
@@ -112,7 +108,7 @@ def is_valid(v):
 
 def is_valid_bech32(v):
     '''Check vector v for bech32 validity'''
-    for hrp in ['nap', 'tnap', 'rnap']:
+    for hrp in ['fc', 'tf', 'fcrt']:
         if decode(hrp, v) != (None, None):
             return True
     return False

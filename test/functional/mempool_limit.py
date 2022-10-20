@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2018 The Bitcoin Core developers
+# Copyright (c) 2014-2019 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test mempool limiting together/eviction with the wallet."""
@@ -13,7 +13,12 @@ class MempoolLimitTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1
-        self.extra_args = [["-maxmempool=5", "-mintxfee=0.00001", "-spendzeroconfchange=0"]]
+        self.extra_args = [[
+            "-acceptnonstdtxn=1",
+            "-maxmempool=5",
+            "-spendzeroconfchange=0",
+            "-mintxfee=0.00001",
+        ]]
 
     def skip_test_if_missing_module(self):
         self.skip_if_no_wallet()
@@ -41,15 +46,15 @@ class MempoolLimitTest(BitcoinTestFramework):
         txid = self.nodes[0].sendrawtransaction(txFS['hex'])
 
         relayfee = self.nodes[0].getnetworkinfo()['relayfee']
-        base_fee = relayfee*100
+        base_fee = relayfee*10000
         for i in range (3):
             txids.append([])
             txids[i] = create_lots_of_big_transactions(self.nodes[0], txouts, utxos[30*i:30*i+30], 30, (i+1)*base_fee)
 
         self.log.info('The tx should be evicted by now')
-        assert(txid not in self.nodes[0].getrawmempool())
+        assert txid not in self.nodes[0].getrawmempool()
         txdata = self.nodes[0].gettransaction(txid)
-        assert(txdata['confirmations'] ==  0) #confirmation should still be 0
+        assert txdata['confirmations'] ==  0  #confirmation should still be 0
 
         self.log.info('Check that mempoolminfee is larger than minrelytxfee')
         assert_equal(self.nodes[0].getmempoolinfo()['minrelaytxfee'], Decimal('0.00001000'))

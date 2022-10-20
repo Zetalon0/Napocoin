@@ -172,9 +172,6 @@ void SendCoinsDialog::setModel(WalletModel *_model)
         connect(ui->groupFee, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, &SendCoinsDialog::updateFeeSectionControls);
         connect(ui->groupFee, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, &SendCoinsDialog::coinControlUpdateLabels);
         connect(ui->customFee, &BitcoinAmountField::valueChanged, this, &SendCoinsDialog::coinControlUpdateLabels);
-        // Napocoin: Disable RBF
-        // connect(ui->optInRBF, &QCheckBox::stateChanged, this, &SendCoinsDialog::updateSmartFeeLabel);
-        // connect(ui->optInRBF, &QCheckBox::stateChanged, this, &SendCoinsDialog::coinControlUpdateLabels);
         CAmount requiredFee = model->wallet().getRequiredFee(1000);
         ui->customFee->SetMinValue(requiredFee);
         if (ui->customFee->value() < requiredFee) {
@@ -183,10 +180,6 @@ void SendCoinsDialog::setModel(WalletModel *_model)
         ui->customFee->setSingleStep(requiredFee);
         updateFeeSectionControls();
         updateSmartFeeLabel();
-
-        // set default rbf checkbox state
-        // Napocoin: Disable RBF
-        // ui->optInRBF->setCheckState(Qt::Checked);
 
         // set the smartfee-sliders default value (wallets default conf.target or last stored value)
         QSettings settings;
@@ -232,8 +225,9 @@ void SendCoinsDialog::on_sendButton_clicked()
             {
                 recipients.append(entry->getValue());
             }
-            else
+            else if (valid)
             {
+                ui->scrollArea->ensureWidgetVisible(entry);
                 valid = false;
             }
         }
@@ -281,18 +275,16 @@ void SendCoinsDialog::on_sendButton_clicked()
     QStringList formatted;
     for (const SendCoinsRecipient &rcp : currentTransaction.getRecipients())
     {
-        // generate bold amount string with wallet name in case of multiwallet
-        QString amount = "<b>" + BitcoinUnits::formatHtmlWithUnit(model->getOptionsModel()->getDisplayUnit(), rcp.amount);
+        // generate amount string with wallet name in case of multiwallet
+        QString amount = BitcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), rcp.amount);
         if (model->isMultiwallet()) {
-            amount.append(" <u>"+tr("from wallet %1").arg(GUIUtil::HtmlEscape(model->getWalletName()))+"</u> ");
+            amount.append(tr(" from wallet '%1'").arg(GUIUtil::HtmlEscape(model->getWalletName())));
         }
-        amount.append("</b>");
-        // generate monospace address string
-        QString address = "<span style='font-family: monospace;'>" + rcp.address;
-        address.append("</span>");
+
+        // generate address string
+        QString address = rcp.address;
 
         QString recipientElement;
-        recipientElement = "<br />";
 
 #ifdef ENABLE_BIP70
         if (!rcp.paymentRequest.IsInitialized()) // normal payment
@@ -300,7 +292,7 @@ void SendCoinsDialog::on_sendButton_clicked()
         {
             if(rcp.label.length() > 0) // label with address
             {
-                recipientElement.append(tr("%1 to %2").arg(amount, GUIUtil::HtmlEscape(rcp.label)));
+                recipientElement.append(tr("%1 to '%2'").arg(amount, GUIUtil::HtmlEscape(rcp.label)));
                 recipientElement.append(QString(" (%1)").arg(address));
             }
             else // just address
@@ -311,7 +303,7 @@ void SendCoinsDialog::on_sendButton_clicked()
 #ifdef ENABLE_BIP70
         else if(!rcp.authenticatedMerchant.isEmpty()) // authenticated payment request
         {
-            recipientElement.append(tr("%1 to %2").arg(amount, GUIUtil::HtmlEscape(rcp.authenticatedMerchant)));
+            recipientElement.append(tr("%1 to '%2'").arg(amount, rcp.authenticatedMerchant));
         }
         else // unauthenticated payment request
         {
@@ -325,7 +317,7 @@ void SendCoinsDialog::on_sendButton_clicked()
     QString questionString = tr("Are you sure you want to send?");
     questionString.append("<br /><span style='font-size:10pt;'>");
     questionString.append(tr("Please, review your transaction."));
-    questionString.append("</span><br />%1");
+    questionString.append("</span>%1");
 
     if(txFee > 0)
     {
@@ -341,17 +333,6 @@ void SendCoinsDialog::on_sendButton_clicked()
         questionString.append("<span style='color:#aa0000; font-weight:bold;'>");
         questionString.append(BitcoinUnits::formatHtmlWithUnit(model->getOptionsModel()->getDisplayUnit(), txFee));
         questionString.append("</span><br />");
-
-        // append RBF message according to transaction's signalling
-        /* Napocoin: Disable RBF
-        questionString.append("<span style='font-size:10pt; font-weight:normal;'>");
-        if (ui->optInRBF->isChecked()) {
-            questionString.append(tr("You can increase the fee later (signals Replace-By-Fee, BIP-125)."));
-        } else {
-            questionString.append(tr("Not signalling Replace-By-Fee, BIP-125."));
-        }
-        questionString.append("</span>");
-        */
     }
 
     // add total amount in all subdivision units
@@ -368,8 +349,17 @@ void SendCoinsDialog::on_sendButton_clicked()
     questionString.append(QString("<br /><span style='font-size:10pt; font-weight:normal;'>(=%1)</span>")
         .arg(alternativeUnits.join(" " + tr("or") + " ")));
 
-    SendConfirmationDialog confirmationDialog(tr("Confirm send coins"),
-        questionString.arg(formatted.join("<br />")), SEND_CONFIRM_DELAY, this);
+    QString informative_text;
+    QString detailed_text;
+    if (formatted.size() > 1) {
+        questionString = questionString.arg("");
+        informative_text = tr("To review recipient list click \"Show Details...\"");
+        detailed_text = formatted.join("\n\n");
+    } else {
+        questionString = questionString.arg("<br /><br />" + formatted.at(0));
+    }
+
+    SendConfirmationDialog confirmationDialog(tr("Confirm send coins"), questionString, informative_text, detailed_text, SEND_CONFIRM_DELAY, this);
     confirmationDialog.exec();
     QMessageBox::StandardButton retval = static_cast<QMessageBox::StandardButton>(confirmationDialog.result());
 
@@ -389,7 +379,7 @@ void SendCoinsDialog::on_sendButton_clicked()
         accept();
         CoinControlDialog::coinControl()->UnSelectAll();
         coinControlUpdateLabels();
-        Q_EMIT coinsSent(currentTransaction.getWtx()->get().GetHash());
+        Q_EMIT coinsSent(currentTransaction.getWtx()->GetHash());
     }
     fNewRecipientAllowed = true;
 }
@@ -582,7 +572,7 @@ void SendCoinsDialog::processSendCoinsReturn(const WalletModel::SendCoinsReturn 
         msgParams.second = CClientUIInterface::MSG_ERROR;
         break;
     case WalletModel::AbsurdFee:
-        msgParams.first = tr("A fee higher than %1 is considered an absurdly high fee.").arg(BitcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), model->node().getMaxTxFee()));
+        msgParams.first = tr("A fee higher than %1 is considered an absurdly high fee.").arg(BitcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), model->wallet().getDefaultMaxTxFee()));
         break;
     case WalletModel::PaymentRequestExpired:
         msgParams.first = tr("Payment request expired.");
@@ -677,8 +667,6 @@ void SendCoinsDialog::updateCoinControlState(CCoinControl& ctrl)
     // Avoid using global defaults when sending money from the GUI
     // Either custom fee will be used or if not selected, the confirmation target from dropdown box
     ctrl.m_confirm_target = getConfTargetForIndex(ui->confTargetSelector->currentIndex());
-    // Napocoin: Disable RBF GUI
-    // ctrl.m_signal_bip125_rbf = ui->optInRBF->isChecked();
 }
 
 void SendCoinsDialog::updateSmartFeeLabel()
@@ -701,7 +689,7 @@ void SendCoinsDialog::updateSmartFeeLabel()
         int lightness = ui->fallbackFeeWarningLabel->palette().color(QPalette::WindowText).lightness();
         QColor warning_colour(255 - (lightness / 5), 176 - (lightness / 3), 48 - (lightness / 14));
         ui->fallbackFeeWarningLabel->setStyleSheet("QLabel { color: " + warning_colour.name() + "; }");
-        ui->fallbackFeeWarningLabel->setIndent(QFontMetrics(ui->fallbackFeeWarningLabel->font()).width("x"));
+        ui->fallbackFeeWarningLabel->setIndent(GUIUtil::TextWidth(QFontMetrics(ui->fallbackFeeWarningLabel->font()), "x"));
     }
     else
     {
@@ -886,10 +874,15 @@ void SendCoinsDialog::coinControlUpdateLabels()
     }
 }
 
-SendConfirmationDialog::SendConfirmationDialog(const QString &title, const QString &text, int _secDelay,
-    QWidget *parent) :
-    QMessageBox(QMessageBox::Question, title, text, QMessageBox::Yes | QMessageBox::Cancel, parent), secDelay(_secDelay)
+SendConfirmationDialog::SendConfirmationDialog(const QString& title, const QString& text, const QString& informative_text, const QString& detailed_text, int _secDelay, QWidget* parent)
+    : QMessageBox(parent), secDelay(_secDelay)
 {
+    setIcon(QMessageBox::Question);
+    setWindowTitle(title); // On macOS, the window title is ignored (as required by the macOS Guidelines).
+    setText(text);
+    setInformativeText(informative_text);
+    setDetailedText(detailed_text);
+    setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
     setDefaultButton(QMessageBox::Cancel);
     yesButton = button(QMessageBox::Yes);
     updateYesButton();

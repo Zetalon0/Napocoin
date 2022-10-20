@@ -25,6 +25,9 @@ from data import invalid_txs
 class InvalidTxRequestTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
+        self.extra_args = [[
+            "-acceptnonstdtxn=1",
+        ]]
         self.setup_clean_chain = True
 
     def bootstrap_p2p(self, *, num_connections=1):
@@ -55,7 +58,6 @@ class InvalidTxRequestTest(BitcoinTestFramework):
         self.log.info("Create a new block with an anyone-can-spend coinbase.")
         height = 1
         block = create_block(tip, create_coinbase(height), block_time)
-        block.nVersion = 0x20000000
         block.solve()
         # Save the coinbase for later
         block1 = block
@@ -92,7 +94,7 @@ class InvalidTxRequestTest(BitcoinTestFramework):
         SCRIPT_PUB_KEY_OP_TRUE = b'\x51\x75' * 15 + b'\x51'
         tx_withhold = CTransaction()
         tx_withhold.vin.append(CTxIn(outpoint=COutPoint(block1.vtx[0].sha256, 0)))
-        tx_withhold.vout.append(CTxOut(nValue=1400 * COIN - 12000, scriptPubKey=SCRIPT_PUB_KEY_OP_TRUE))
+        tx_withhold.vout.append(CTxOut(nValue=50 * COIN - 12000, scriptPubKey=SCRIPT_PUB_KEY_OP_TRUE))
         tx_withhold.calc_sha256()
 
         # Our first orphan tx with some outputs to create further orphan txs

@@ -67,11 +67,7 @@
     </message>
     <message>
         <source>These are your Napocoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Jen viaj Napocoin-adresoj por sendi pagojn. Zorge kontrolu la sumon kaj la alsendan adreson antaŭ ol sendi.</translation>
-    </message>
-    <message>
-        <source>These are your Napocoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Jen viaj napocoinj adresoj por ricevi pagojn. Estas konsilinde uzi apartan ricevan adreson por ĉiu transakcio.</translation>
+        <translation>Jen viaj Bitmon-adresoj por sendi pagojn. Zorge kontrolu la sumon kaj la alsendan adreson antaŭ ol sendi.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -136,14 +132,6 @@
         <translation>Ripetu la novan pasfrazon</translation>
     </message>
     <message>
-        <source>Show password</source>
-        <translation>Montru pasvorton</translation>
-    </message>
-    <message>
-        <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
-        <translation>Enigu novan pasfrazon por la monujo.&lt;br/&gt;Bonvolu uzi pasfrazon kun &lt;b&gt;almenaŭ 10 hazardaj signoj&lt;/b&gt;, aŭ &lt;b&gt;almenaŭ ok aŭ pli vortoj&lt;/b&gt;.</translation>
-    </message>
-    <message>
         <source>Encrypt wallet</source>
         <translation>Ĉifri la monujon</translation>
     </message>
@@ -168,15 +156,11 @@
         <translation>Ŝanĝi la pasfrazon</translation>
     </message>
     <message>
-        <source>Enter the old passphrase and new passphrase to the wallet.</source>
-        <translation>Tajpu la malnovan pasvorton kaj la novan pasvorton por la monujo.</translation>
-    </message>
-    <message>
         <source>Confirm wallet encryption</source>
         <translation>Konfirmo de ĉifrado de la monujo</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR NAPOCOINS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
         <translation>Atentu! Se vi ĉifras vian monujon kaj perdas la pasfrazon, vi &lt;b&gt;PERDOS LA TUTON DE VIA BITMONO&lt;b&gt;!</translation>
     </message>
     <message>
@@ -299,7 +283,7 @@
     </message>
     <message>
         <source>Send coins to a Napocoin address</source>
-        <translation>Sendi monon al Napocoin-adreso</translation>
+        <translation>Sendi monon al Bitmon-adreso</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -320,10 +304,6 @@
     <message>
         <source>&amp;Verify message...</source>
         <translation>&amp;Kontroli mesaĝon...</translation>
-    </message>
-    <message>
-        <source>Napocoin</source>
-        <translation>Napocoin</translation>
     </message>
     <message>
         <source>&amp;Send</source>
@@ -347,11 +327,11 @@
     </message>
     <message>
         <source>Sign messages with your Napocoin addresses to prove you own them</source>
-        <translation>Subskribi mesaĝojn per via Napocoin-adresoj por pravigi, ke vi estas la posedanto</translation>
+        <translation>Subskribi mesaĝojn per via Bitmon-adresoj por pravigi, ke vi estas la posedanto</translation>
     </message>
     <message>
         <source>Verify messages to ensure they were signed with specified Napocoin addresses</source>
-        <translation>Kontroli mesaĝojn por kontroli ĉu ili estas subskribitaj per specifaj Napocoin-adresoj</translation>
+        <translation>Kontroli mesaĝojn por kontroli ĉu ili estas subskribitaj per specifaj Bitmon-adresoj</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -539,9 +519,55 @@
         <translation>Konfirmita</translation>
     </message>
     <message>
+        <source>Copy address</source>
+        <translation>Kopii adreson</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Kopii etikedon</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopii sumon</translation>
+    </message>
+    <message>
+        <source>Copy transaction ID</source>
+        <translation>Kopii transakcian ID-on</translation>
+    </message>
+    <message>
+        <source>Copy quantity</source>
+        <translation>Kopii kvanton</translation>
+    </message>
+    <message>
+        <source>Copy fee</source>
+        <translation>Kopii krompagon</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Kopii post krompago</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Kopii bajtojn</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Kopii polvon</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Kopii restmonon</translation>
+    </message>
+    <message>
         <source>(no label)</source>
         <translation>(neniu etikedo)</translation>
     </message>
+    </context>
+<context>
+    <name>CreateWalletActivity</name>
+    </context>
+<context>
+    <name>CreateWalletDialog</name>
     </context>
 <context>
     <name>EditAddressDialog</name>
@@ -616,7 +642,7 @@
     </message>
     <message>
         <source>Napocoin</source>
-        <translation>Napocoin</translation>
+        <translation>Bitmono</translation>
     </message>
     <message>
         <source>Error</source>
@@ -658,6 +684,9 @@
     </message>
     </context>
 <context>
+    <name>OpenWalletActivity</name>
+    </context>
+<context>
     <name>OptionsDialog</name>
     <message>
         <source>Options</source>
@@ -693,7 +722,7 @@
     </message>
     <message>
         <source>Automatically open the Napocoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Aŭtomate malfermi la kursilan pordon por Napocoin. Tio funkcias nur se via kursilo havas la UPnP-funkcion, kaj se tiu ĉi estas ŝaltita.</translation>
+        <translation>Aŭtomate malfermi la kursilan pordon por Bitmono. Tio funkcias nur se via kursilo havas la UPnP-funkcion, kaj se tiu ĉi estas ŝaltita.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -749,7 +778,7 @@
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Elekti la defaŭltan manieron por montri napocoinjn sumojn en la interfaco, kaj kiam vi sendos bitmonon.</translation>
+        <translation>Elekti la defaŭltan manieron por montri bitmonajn sumojn en la interfaco, kaj kiam vi sendos bitmonon.</translation>
     </message>
     <message>
         <source>Whether to show coin control features or not.</source>
@@ -792,7 +821,7 @@
     </message>
     <message>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Napocoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Eblas, ke la informoj videblaj ĉi tie estas eksdataj. Via monujo aŭtomate sinkoniĝas kun la napocoin reto kiam ili konektiĝas, sed tiu procezo ankoraŭ ne finfariĝis.</translation>
+        <translation>Eblas, ke la informoj videblaj ĉi tie estas eksdataj. Via monujo aŭtomate sinkoniĝas kun la bitmona reto kiam ili konektiĝas, sed tiu procezo ankoraŭ ne finfariĝis.</translation>
     </message>
     <message>
         <source>Your current spendable balance</source>
@@ -892,18 +921,27 @@
         <translation>%1 GB</translation>
     </message>
     <message>
+        <source>Error: Specified data directory "%1" does not exist.</source>
+        <translation>Eraro: la elektita dosierujo por datumoj "%1" ne ekzistas.</translation>
+    </message>
+    <message>
         <source>unknown</source>
         <translation>nekonata</translation>
     </message>
 </context>
 <context>
-    <name>QObject::QObject</name>
-    </context>
-<context>
     <name>QRImageWidget</name>
     <message>
         <source>&amp;Save Image...</source>
         <translation>&amp;Konservi Bildon...</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>La rezultanta URI estas tro longa. Provu malplilongigi la tekston de la etikedo / mesaĝo.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Eraro de kodigo de URI en la QR-kodon.</translation>
     </message>
     </context>
 <context>
@@ -1040,10 +1078,6 @@
         <translation>Forigi</translation>
     </message>
     <message>
-        <source>&amp;Request payment</source>
-        <translation>&amp;Peti pagon</translation>
-    </message>
-    <message>
         <source>Show</source>
         <translation>Vidigi</translation>
     </message>
@@ -1114,14 +1148,6 @@
         <source>Wallet</source>
         <translation>Monujo</translation>
     </message>
-    <message>
-        <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation>La rezultanta URI estas tro longa. Provu malplilongigi la tekston de la etikedo / mesaĝo.</translation>
-    </message>
-    <message>
-        <source>Error encoding URI into QR Code.</source>
-        <translation>Eraro de kodigo de URI en la QR-kodon.</translation>
-    </message>
 </context>
 <context>
     <name>RecentRequestsTableModel</name>
@@ -1150,7 +1176,7 @@
     <name>SendCoinsDialog</name>
     <message>
         <source>Send Coins</source>
-        <translation>Sendi Napocoinn</translation>
+        <translation>Sendi Bitmonon</translation>
     </message>
     <message>
         <source>Coin Control Features</source>
@@ -1290,7 +1316,7 @@
     </message>
     <message>
         <source>Warning: Invalid Napocoin address</source>
-        <translation>Averto: Nevalida Napocoin-adreso</translation>
+        <translation>Averto: Nevalida Bitmon-adreso</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -1406,7 +1432,7 @@
     </message>
     <message>
         <source>Sign the message to prove you own this Napocoin address</source>
-        <translation>Subskribi la mesaĝon por pravigi, ke vi estas la posedanto de tiu Napocoin-adreso</translation>
+        <translation>Subskribi la mesaĝon por pravigi, ke vi estas la posedanto de tiu Bitmon-adreso</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -1426,7 +1452,7 @@
     </message>
     <message>
         <source>Verify the message to ensure it was signed with the specified Napocoin address</source>
-        <translation>Kontroli la mesaĝon por pravigi, ke ĝi ja estas subskribita per la specifa Napocoin-adreso</translation>
+        <translation>Kontroli la mesaĝon por pravigi, ke ĝi ja estas subskribita per la specifa Bitmon-adreso</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -1487,13 +1513,6 @@
     <message>
         <source>Message verified.</source>
         <translation>Mesaĝo sukcese kontrolita.</translation>
-    </message>
-</context>
-<context>
-    <name>SplashScreen</name>
-    <message>
-        <source>[testnet]</source>
-        <translation>[testnet]</translation>
     </message>
 </context>
 <context>
@@ -1832,7 +1851,7 @@
     <name>WalletModel</name>
     <message>
         <source>Send Coins</source>
-        <translation>Sendi Napocoinn</translation>
+        <translation>Sendi Bitmonon</translation>
     </message>
     </context>
 <context>
@@ -1864,10 +1883,6 @@
     </context>
 <context>
     <name>bitcoin-core</name>
-    <message>
-        <source>Napocoin Core</source>
-        <translation>Kerno de Napocoin</translation>
-    </message>
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
         <translation>Tiu ĉi estas antaŭeldona testa versio - uzu laŭ via propra risko - ne uzu por minado aŭ por aplikaĵoj por vendistoj</translation>
@@ -1905,10 +1920,6 @@
         <translation>Eraro dum malfermado de blokdatumbazo</translation>
     </message>
     <message>
-        <source>Error: Disk space is low!</source>
-        <translation>Eraro: restas malmulte da diskospaco!</translation>
-    </message>
-    <message>
         <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
         <translation>Ne sukcesis aŭskulti ajnan pordon. Uzu -listen=0 se tion vi volas.</translation>
     </message>
@@ -1925,10 +1936,6 @@
         <translation>Kontrolado de blokoj...</translation>
     </message>
     <message>
-        <source>Information</source>
-        <translation>Informoj</translation>
-    </message>
-    <message>
         <source>Signing transaction failed</source>
         <translation>Subskriba transakcio fiaskis</translation>
     </message>
@@ -1943,10 +1950,6 @@
     <message>
         <source>Transaction too large</source>
         <translation>Transakcio estas tro granda</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Averto</translation>
     </message>
     <message>
         <source>Unknown network specified in -onlynet: '%s'</source>
@@ -1975,10 +1978,6 @@
     <message>
         <source>Done loading</source>
         <translation>Ŝargado finiĝis</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Eraro</translation>
     </message>
 </context>
 </TS>

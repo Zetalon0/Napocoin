@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2018 The Bitcoin Core developers
+# Copyright (c) 2014-2019 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the wallet accounts properly when there are cloned transactions with malleated scriptsigs."""
@@ -8,10 +8,8 @@ import io
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
-    bytes_to_hex_str as b2x,
     connect_nodes,
     disconnect_nodes,
-    sync_blocks,
 )
 from test_framework.messages import CTransaction, COIN
 
@@ -41,7 +39,7 @@ class TxnMallTest(BitcoinTestFramework):
             output_type = "legacy"
 
         # All nodes should start with 1,250 BTC:
-        starting_balance = 1250
+        starting_balance = 2000
         for i in range(4):
             assert_equal(self.nodes[i].getbalance(), starting_balance)
             self.nodes[i].getnewaddress()  # bug workaround, coins generated assigned to first getnewaddress!
@@ -49,7 +47,7 @@ class TxnMallTest(BitcoinTestFramework):
         self.nodes[0].settxfee(.001)
 
         node0_address1 = self.nodes[0].getnewaddress(address_type=output_type)
-        node0_txid1 = self.nodes[0].sendtoaddress(node0_address1, 1219)
+        node0_txid1 = self.nodes[0].sendtoaddress(node0_address1, 1969)
         node0_tx1 = self.nodes[0].gettransaction(node0_txid1)
 
         node0_address2 = self.nodes[0].getnewaddress(address_type=output_type)
@@ -82,13 +80,13 @@ class TxnMallTest(BitcoinTestFramework):
 
         # Use a different signature hash type to sign.  This creates an equivalent but malleated clone.
         # Don't send the clone anywhere yet
-        tx1_clone = self.nodes[0].signrawtransactionwithwallet(b2x(clone_tx.serialize()), None, "ALL|ANYONECANPAY")
+        tx1_clone = self.nodes[0].signrawtransactionwithwallet(clone_tx.serialize().hex(), None, "ALL|ANYONECANPAY")
         assert_equal(tx1_clone["complete"], True)
 
         # Have node0 mine a block, if requested:
         if (self.options.mine_block):
             self.nodes[0].generate(1)
-            sync_blocks(self.nodes[0:2])
+            self.sync_blocks(self.nodes[0:2])
 
         tx1 = self.nodes[0].gettransaction(txid1)
         tx2 = self.nodes[0].gettransaction(txid2)
@@ -97,7 +95,7 @@ class TxnMallTest(BitcoinTestFramework):
         # matured block, minus tx1 and tx2 amounts, and minus transaction fees:
         expected = starting_balance + node0_tx1["fee"] + node0_tx2["fee"]
         if self.options.mine_block:
-            expected += 50
+            expected += 80
         expected += tx1["amount"] + tx1["fee"]
         expected += tx2["amount"] + tx2["fee"]
         assert_equal(self.nodes[0].getbalance(), expected)
@@ -124,7 +122,7 @@ class TxnMallTest(BitcoinTestFramework):
         self.nodes[2].sendrawtransaction(node0_tx2["hex"])
         self.nodes[2].sendrawtransaction(tx2["hex"])
         self.nodes[2].generate(1)  # Mine another block to make sure we sync
-        sync_blocks(self.nodes)
+        self.sync_blocks()
 
         # Re-fetch transaction info:
         tx1 = self.nodes[0].gettransaction(txid1)
@@ -138,9 +136,9 @@ class TxnMallTest(BitcoinTestFramework):
 
         # Check node0's total balance; should be same as before the clone, + 100 BTC for 2 matured,
         # less possible orphaned matured subsidy
-        expected += 100
+        expected += 160
         if (self.options.mine_block):
-            expected -= 50
+            expected -= 80
         assert_equal(self.nodes[0].getbalance(), expected)
 
 if __name__ == '__main__':

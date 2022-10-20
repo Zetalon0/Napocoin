@@ -1,6 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2018 The Bitcoin Core developers
-// Copyright (c) 2022 The Napocoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,69 +15,98 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     assert(pindexLast != nullptr);
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
+    int nHeight = pindexLast->nHeight + 1; 
+    // 1th Hard fork, reset difficulty
+    if (nHeight == params.nForkOne)
+        return UintToArith256(params.powNeoScryptLimit).GetCompact();
+    int nTargetTimespan = params.nPowTargetTimespan;
+    int nTargetSpacing = params.nPowTargetSpacing;
+
+    int64_t nInterval = nTargetTimespan / nTargetSpacing;
+
+    bool fHardFork = nHeight == params.nForkOne;
     // Only change once per difficulty adjustment interval
-    if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
+    if ((pindexLast->nHeight+1) % nInterval != 0 && !fHardFork && nHeight < params.nForkOne)
     {
-        if (params.fPowAllowMinDifficultyBlocks)
-        {
-            // Special difficulty rule for testnet:
-            // If the new block's timestamp is more than 2* 10 minutes
-            // then allow mining of a min-difficulty block.
-            if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2)
-                return nProofOfWorkLimit;
-            else
-            {
-                // Return the last non-special-min-difficulty-rules-block
-                const CBlockIndex* pindex = pindexLast;
-                while (pindex->pprev && pindex->nHeight % params.DifficultyAdjustmentInterval() != 0 && pindex->nBits == nProofOfWorkLimit)
-                    pindex = pindex->pprev;
-                return pindex->nBits;
-            }
-        }
         return pindexLast->nBits;
     }
 
-    // Go back by what we want to be 14 days worth of blocks
-    // Napocoin: This fixes an issue where a 51% attack can change difficulty at will.
-    // Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
-    int blockstogoback = params.DifficultyAdjustmentInterval()-1;
-    if ((pindexLast->nHeight+1) != params.DifficultyAdjustmentInterval())
-        blockstogoback = params.DifficultyAdjustmentInterval();
+    if (params.fPowAllowMinDifficultyBlocks)
+    {
+        // Special difficulty rule for testnet:
+        // If the new block's timestamp is more than 10 minutes
+        // then allow mining of a min-difficulty block.
+        if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing * 10)
+            return nProofOfWorkLimit;
+    }
 
-    // Go back by what we want to be 14 days worth of blocks
+    // The 1st retarget after genesis
+    if (nInterval >= nHeight)
+        nInterval = nHeight - 1;
+
+    // Go back by nInterval
     const CBlockIndex* pindexFirst = pindexLast;
-    for (int i = 0; pindexFirst && i < blockstogoback; i++)
+    for (int i = 0; pindexFirst && i < nInterval; i++)
         pindexFirst = pindexFirst->pprev;
 
-    assert(pindexFirst);
-
-    return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
+    return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), nTargetTimespan, nTargetSpacing, params);
 }
 
-unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
+unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, int nTargetTimespan, int nTargetSpacing, const Consensus::Params& params)
 {
     if (params.fPowNoRetargeting)
         return pindexLast->nBits;
 
-    // Limit adjustment step
     int64_t nActualTimespan = pindexLast->GetBlockTime() - nFirstBlockTime;
-    if (nActualTimespan < params.nPowTargetTimespan/4)
-        nActualTimespan = params.nPowTargetTimespan/4;
-    if (nActualTimespan > params.nPowTargetTimespan*4)
-        nActualTimespan = params.nPowTargetTimespan*4;
+    int nHeight = pindexLast->nHeight + 1;
+    int64_t nInterval = nTargetTimespan / nTargetSpacing;
+    int nActualTimespanAvg = 0;
+
+    if (nHeight >= params.nForkOne) {
+        nInterval = 1;
+
+        int pindexFirstShortTime = 0;
+        int pindexFirstMediumTime = 0;
+        const CBlockIndex* pindexFirstLong = pindexLast;
+        for(int i = 0; pindexFirstLong && i < nInterval && i < nHeight - 1; i++) {
+            pindexFirstLong = pindexFirstLong->pprev;
+            if (i == 14)
+                pindexFirstShortTime = pindexFirstLong->GetBlockTime();
+            if (i == 119)
+                pindexFirstMediumTime = pindexFirstLong->GetBlockTime();
+        }
+        int nActualTimespanShort = (pindexLast->GetBlockTime() - pindexFirstShortTime) / 15;
+        int nActualTimespanMedium = (pindexLast->GetBlockTime() - pindexFirstMediumTime)/120;
+        int nActualTimespanLong = (pindexLast->GetBlockTime() - pindexFirstLong->GetBlockTime())/480;
+
+        nActualTimespanAvg = (nActualTimespanShort + nActualTimespanMedium + nActualTimespanLong) / 3;
+    }
+
+    if (nHeight >= params.nForkOne) {
+        // Apply .25 damping
+        nActualTimespan = nActualTimespanAvg + 3 * nTargetTimespan;
+        nActualTimespan /= 4;
+    }
+
+    // The initial settings (4.0 difficulty limiter)
+    int nActualTimespanMax = nTargetTimespan*1;
+    int nActualTimespanMin = nTargetTimespan/1;
+
+    // Limit adjustment step
+    if(nActualTimespan < nActualTimespanMin)
+        nActualTimespan = nActualTimespanMin;
+    if(nActualTimespan > nActualTimespanMax)
+        nActualTimespan = nActualTimespanMax;
 
     // Retarget
     arith_uint256 bnNew;
-    arith_uint256 bnOld;
     bnNew.SetCompact(pindexLast->nBits);
-    bnOld = bnNew;
-    // Napocoin: intermediate uint256 can overflow by 1 bit
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
     bool fShift = bnNew.bits() > bnPowLimit.bits() - 1;
     if (fShift)
         bnNew >>= 1;
     bnNew *= nActualTimespan;
-    bnNew /= params.nPowTargetTimespan;
+    bnNew /= nTargetTimespan;
     if (fShift)
         bnNew <<= 1;
 

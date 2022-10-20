@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2018 The Bitcoin Core developers
+// Copyright (c) 2011-2019 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,9 +6,9 @@
 #include <consensus/merkle.h>
 #include <chainparams.h>
 #include <pow.h>
-#include <random.h>
+#include <streams.h>
 
-#include <test/test_bitcoin.h>
+#include <test/setup_common.h>
 
 #include <boost/test/unit_test.hpp>
 
@@ -30,9 +30,9 @@ static CBlock BuildBlockTestCase() {
 
     block.vtx.resize(3);
     block.vtx[0] = MakeTransactionRef(tx);
-    block.nVersion = 1;
+    block.nVersion = 42;
     block.hashPrevBlock = InsecureRand256();
-    block.nBits = 0x1e0ffff0;
+    block.nBits = 0x207fffff;
 
     tx.vin[0].prevout.hash = InsecureRand256();
     tx.vin[0].prevout.n = 0;
@@ -48,7 +48,7 @@ static CBlock BuildBlockTestCase() {
     bool mutated;
     block.hashMerkleRoot = BlockMerkleRoot(block, &mutated);
     assert(!mutated);
-    while (!CheckProofOfWork(block.GetPoWHash(), block.nBits, Params().GetConsensus())) ++block.nNonce;
+    while (!CheckProofOfWork(block.GetPoWHash(0x3), block.nBits, Params().GetConsensus())) ++block.nNonce;
     return block;
 }
 
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE(SimpleRoundTripTest)
         BOOST_CHECK_EQUAL(pool.mapTx.find(block.vtx[2]->GetHash())->GetSharedTx().use_count(), SHARED_TX_OFFSET + 1);
 
         size_t poolSize = pool.size();
-        pool.removeRecursive(*block.vtx[2]);
+        pool.removeRecursive(*block.vtx[2], MemPoolRemovalReason::REPLACED);
         BOOST_CHECK_EQUAL(pool.size(), poolSize - 1);
 
         CBlock block2;
@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE(SimpleRoundTripTest)
 
         CBlock block3;
         BOOST_CHECK(partialBlock.FillBlock(block3, {block.vtx[1]}) == READ_STATUS_OK);
-        BOOST_CHECK_EQUAL(block.GetPoWHash().ToString(), block3.GetPoWHash().ToString());
+        BOOST_CHECK_EQUAL(block.GetHash().ToString(), block3.GetHash().ToString());
         BOOST_CHECK_EQUAL(block.hashMerkleRoot.ToString(), BlockMerkleRoot(block3, &mutated).ToString());
         BOOST_CHECK(!mutated);
     }
@@ -211,7 +211,7 @@ BOOST_AUTO_TEST_CASE(NonCoinbasePreforwardRTTest)
         CBlock block3;
         PartiallyDownloadedBlock partialBlockCopy = partialBlock;
         BOOST_CHECK(partialBlock.FillBlock(block3, {block.vtx[0]}) == READ_STATUS_OK);
-        BOOST_CHECK_EQUAL(block.GetPoWHash().ToString(), block3.GetPoWHash().ToString());
+        BOOST_CHECK_EQUAL(block.GetHash().ToString(), block3.GetHash().ToString());
         BOOST_CHECK_EQUAL(block.hashMerkleRoot.ToString(), BlockMerkleRoot(block3, &mutated).ToString());
         BOOST_CHECK(!mutated);
 
@@ -264,7 +264,7 @@ BOOST_AUTO_TEST_CASE(SufficientPreforwardRTTest)
         CBlock block2;
         PartiallyDownloadedBlock partialBlockCopy = partialBlock;
         BOOST_CHECK(partialBlock.FillBlock(block2, {}) == READ_STATUS_OK);
-        BOOST_CHECK_EQUAL(block.GetPoWHash().ToString(), block2.GetPoWHash().ToString());
+        BOOST_CHECK_EQUAL(block.GetHash().ToString(), block2.GetHash().ToString());
         bool mutated;
         BOOST_CHECK_EQUAL(block.hashMerkleRoot.ToString(), BlockMerkleRoot(block2, &mutated).ToString());
         BOOST_CHECK(!mutated);
@@ -289,14 +289,14 @@ BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
     CBlock block;
     block.vtx.resize(1);
     block.vtx[0] = MakeTransactionRef(std::move(coinbase));
-    block.nVersion = 1;
+    block.nVersion = 42;
     block.hashPrevBlock = InsecureRand256();
-    block.nBits = 0x1e0ffff0;
+    block.nBits = 0x207fffff;
 
     bool mutated;
     block.hashMerkleRoot = BlockMerkleRoot(block, &mutated);
     assert(!mutated);
-    while (!CheckProofOfWork(block.GetPoWHash(), block.nBits, Params().GetConsensus())) ++block.nNonce;
+    while (!CheckProofOfWork(block.GetPoWHash(0x3), block.nBits, Params().GetConsensus())) ++block.nNonce;
 
     // Test simple header round-trip with only coinbase
     {
@@ -315,7 +315,7 @@ BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
         CBlock block2;
         std::vector<CTransactionRef> vtx_missing;
         BOOST_CHECK(partialBlock.FillBlock(block2, vtx_missing) == READ_STATUS_OK);
-        BOOST_CHECK_EQUAL(block.GetPoWHash().ToString(), block2.GetPoWHash().ToString());
+        BOOST_CHECK_EQUAL(block.GetHash().ToString(), block2.GetHash().ToString());
         BOOST_CHECK_EQUAL(block.hashMerkleRoot.ToString(), BlockMerkleRoot(block2, &mutated).ToString());
         BOOST_CHECK(!mutated);
     }
@@ -386,6 +386,7 @@ BOOST_AUTO_TEST_CASE(TransactionsRequestDeserializationOverflowTest) {
         BOOST_CHECK(0);
     } catch(std::ios_base::failure &) {
         // deserialize should fail
+        BOOST_CHECK(true); // Needed to suppress "Test case [...] did not check any assertions"
     }
 }
 

@@ -4,8 +4,6 @@
 
 #include <qt/bitcoinunits.h>
 
-#include <primitives/transaction.h>
-
 #include <QStringList>
 
 BitcoinUnits::BitcoinUnits(QObject *parent):
@@ -44,8 +42,8 @@ QString BitcoinUnits::longName(int unit)
     {
     case BTC: return QString("NAP");
     case mBTC: return QString("mNAP");
-    case uBTC: return QString("µNAP");
-    case SAT: return QString("");
+    case uBTC: return QString::fromUtf8("µNAP (bits)");
+    case SAT: return QString("Satoshi (sat)");
     default: return QString("???");
     }
 }
@@ -66,8 +64,8 @@ QString BitcoinUnits::description(int unit)
     {
     case BTC: return QString("Napocoins");
     case mBTC: return QString("Milli-Napocoins (1 / 1" THIN_SP_UTF8 "000)");
-    case uBTC: return QString("Micro-Napocoins (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-    case SAT: return QString(" (sat) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case uBTC: return QString("Micro-Napocoins (bits) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case SAT: return QString("Satoshi (sat) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     default: return QString("???");
     }
 }
