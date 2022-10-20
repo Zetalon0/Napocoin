@@ -178,11 +178,11 @@
   { "exec": "./bitcoin-tx",
     "args":
     ["-create",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0",
-     "in=bf829c6bcf84579331337659d31f89dfd138f7f7785802d5501c92333145ca7c:18",
-     "in=22a6f904655d53ae2ff70e701a0bbd90aa3975c0f40bfc6cc996a9049e31cdfc:1",
-     "outaddr=0.18:13tuJJDR2RgArmgfv6JScSdreahzgc4T6o",
-     "outaddr=4:1P8yWvZW8jVihP1bzHeqfE4aoXNX8AVa46"],
+     "in=5ee62e3f7757f5fd995b2fa1bdb5b744298146098d5de92959ec4b52dc77191e:1",
+     "in=3cd215c1c6b7ae33bc6266f268fd212b83860e13902b454502ce6d54448e398a:25",
+     "in=0f941395005b80a61726baecebb11d7caa184a1a58246daff7dffca793ab07b8:12",
+     "outaddr=12.52000000:LT7W6xCWK9tZVyyg3iifzHp8vUgMKke4sY",
+     "outaddr=0.01000487:LMnn592npBwmeLtTfKc9RoZUqAe2rDgvKX"],
     "output_cmp": "txcreate1.hex",
     "description": "Creates a new transaction with three inputs and two outputs"
   },
@@ -190,11 +190,11 @@
     "args":
     ["-json",
      "-create",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0",
-     "in=bf829c6bcf84579331337659d31f89dfd138f7f7785802d5501c92333145ca7c:18",
-     "in=22a6f904655d53ae2ff70e701a0bbd90aa3975c0f40bfc6cc996a9049e31cdfc:1",
-     "outaddr=0.18:13tuJJDR2RgArmgfv6JScSdreahzgc4T6o",
-     "outaddr=4:1P8yWvZW8jVihP1bzHeqfE4aoXNX8AVa46"],
+     "in=5ee62e3f7757f5fd995b2fa1bdb5b744298146098d5de92959ec4b52dc77191e:1",
+     "in=3cd215c1c6b7ae33bc6266f268fd212b83860e13902b454502ce6d54448e398a:25",
+     "in=0f941395005b80a61726baecebb11d7caa184a1a58246daff7dffca793ab07b8:12",
+     "outaddr=12.52000000:LMgENNXzzuPxp7vfMjDrCU44bsmrEMgqvc",
+     "outaddr=0.01000487:LV1ByjbJNFTHyFQqwqwdJXKJznYDzXzg4B"],
     "output_cmp": "txcreate1.json",
     "description": "Creates a new transaction with three inputs and two outputs (output in json)"
   },
@@ -261,11 +261,11 @@
   { "exec": "./bitcoin-tx",
     "args":
     ["-create", "nversion=1",
-     "in=4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59485:0",
-     "set=privatekeys:[\"5HpHagT65TZzG1PH3CSu63k8DbpvD8s5ip4nEB3kEsreAnchuDf\"]",
-     "set=prevtxs:[{\"txid\":\"4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59485\",\"vout\":0,\"scriptPubKey\":\"76a91491b24bf9f5288532960ac687abb035127b1d28a588ac\"}]",
+     "in=6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7:0",
+     "set=privatekeys:[\"T3Eyvg7Me8fuajt2RJvQaRokRabBweiyBWVJiQG8P1bwDUEXPhqv\"]",
+     "set=prevtxs:[{\"txid\":\"6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7\",\"vout\":0,\"scriptPubKey\":\"6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7\"}]",
      "sign=ALL",
-     "outaddr=0.001:193P6LtvS4nCnkDvM9uXn1gsSRqh4aDAz7"],
+     "outaddr=0.001:LXC44cQhuRufFtaDhDYv4q8nxQJBkUAsXp"],
     "output_cmp": "txcreatesignv1.hex",
     "description": "Creates a new v1 transaction with a single input and a single output, and then signs the transaction"
   },
@@ -273,33 +273,33 @@
     "args":
     ["-json",
      "-create", "nversion=1",
-     "in=4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59485:0",
-     "set=privatekeys:[\"5HpHagT65TZzG1PH3CSu63k8DbpvD8s5ip4nEB3kEsreAnchuDf\"]",
-     "set=prevtxs:[{\"txid\":\"4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59485\",\"vout\":0,\"scriptPubKey\":\"76a91491b24bf9f5288532960ac687abb035127b1d28a588ac\"}]",
+     "in=6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7:0",
+     "set=privatekeys:[\"T3Eyvg7Me8fuajt2RJvQaRokRabBweiyBWVJiQG8P1bwDUEXPhqv\"]",
+     "set=prevtxs:[{\"txid\":\"6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7\",\"vout\":0,\"scriptPubKey\":\"6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7\"}]",
      "sign=ALL",
-     "outaddr=0.001:193P6LtvS4nCnkDvM9uXn1gsSRqh4aDAz7"],
+     "outaddr=0.001:LXC44cQhuRufFtaDhDYv4q8nxQJBkUAsXp"],
     "output_cmp": "txcreatesignv1.json",
     "description": "Creates a new v1 transaction with a single input and a single output, and then signs the transaction (output in json)"
   },
   { "exec": "./bitcoin-tx",
     "args":
     ["-create",
-      "in=4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59485:0",
-      "set=privatekeys:[\"5HpHagT65TZzG1PH3CSu63k8DbpvD8s5ip4nEB3kEsreAnchuDf\"]",
-      "set=prevtxs:[{\"txid\":\"4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59485\",\"vout\":0,\"scriptPubKey\":\"76a91491b24bf9f5288532960ac687abb035127b1d28a588ac\"}]",
+      "in=6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7:0",
+      "set=privatekeys:[\"T3Eyvg7Me8fuajt2RJvQaRokRabBweiyBWVJiQG8P1bwDUEXPhqv\"]",
+      "set=prevtxs:[{\"txid\":\"6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7\",\"vout\":0,\"scriptPubKey\":\"6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7\"}]",
       "sign=ALL",
-      "outaddr=0.001:193P6LtvS4nCnkDvM9uXn1gsSRqh4aDAz7"],
+      "outaddr=0.001:LXC44cQhuRufFtaDhDYv4q8nxQJBkUAsXp"],
     "output_cmp": "txcreatesignv2.hex",
     "description": "Creates a new transaction with a single input and a single output, and then signs the transaction"
   },
   { "exec": "./bitcoin-tx",
     "args":
     ["-create",
-      "in=4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59485:0",
-      "set=privatekeys:[\"5HpHagT65TZzG1PH3CSu63k8DbpvD8s5ip4nEB3kEsreAnchuDf\"]",
-      "set=prevtxs:[{\"txid\":\"4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59485\",\"vout\":\"0foo\",\"scriptPubKey\":\"76a91491b24bf9f5288532960ac687abb035127b1d28a588ac\"}]",
+      "in=6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7:0",
+      "set=privatekeys:[\"T3Eyvg7Me8fuajt2RJvQaRokRabBweiyBWVJiQG8P1bwDUEXPhqv\"]",
+      "set=prevtxs:[{\"txid\":\"6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7\",\"vout\":\"0foo\",\"scriptPubKey\":\"76a91491b24bf9f5288532960ac687abb035127b1d28a588ac\"}]",
       "sign=ALL",
-      "outaddr=0.001:193P6LtvS4nCnkDvM9uXn1gsSRqh4aDAz7"],
+      "outaddr=0.001:LXC44cQhuRufFtaDhDYv4q8nxQJBkUAsXp"],
     "return_code": 1,
     "error_txt": "error: prevtxs internal object typecheck fail",
     "description": "Tests the check for invalid vout index in prevtxs for sign"
@@ -307,11 +307,11 @@
   { "exec": "./bitcoin-tx",
     "args":
     ["-create",
-      "in=4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59485:0",
-      "set=privatekeys:[\"5HpHagT65TZzG1PH3CSu63k8DbpvD8s5ip4nEB3kEsreAnchuDf\"]",
+      "in=6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7:0",
+      "set=privatekeys:[\"T3Eyvg7Me8fuajt2RJvQaRokRabBweiyBWVJiQG8P1bwDUEXPhqv\"]",
       "set=prevtxs:[{\"txid\":\"Zd49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59412\",\"vout\":0,\"scriptPubKey\":\"76a91491b24bf9f5288532960ac687abb035127b1d28a588ac\"}]",
       "sign=ALL",
-      "outaddr=0.001:193P6LtvS4nCnkDvM9uXn1gsSRqh4aDAz7"],
+      "outaddr=0.001:LXC44cQhuRufFtaDhDYv4q8nxQJBkUAsXp"],
     "return_code": 1,
     "error_txt": "error: txid must be hexadecimal string (not 'Zd49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59412')",
     "description": "Tests the check for invalid txid due to invalid hex"
@@ -319,25 +319,25 @@
   { "exec": "./bitcoin-tx",
     "args":
     ["-create",
-      "in=4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59485:0",
-      "set=privatekeys:[\"5HpHagT65TZzG1PH3CSu63k8DbpvD8s5ip4nEB3kEsreAnchuDf\"]",
-      "set=prevtxs:[{\"txid\":\"4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc594\",\"vout\":0,\"scriptPubKey\":\"76a91491b24bf9f5288532960ac687abb035127b1d28a588ac\"}]",
+      "in=6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7:0",
+      "set=privatekeys:[\"T3Eyvg7Me8fuajt2RJvQaRokRabBweiyBWVJiQG8P1bwDUEXPhqv\"]",
+      "set=prevtxs:[{\"txid\":\"6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07b\",\"vout\":0,\"scriptPubKey\":\"76a91491b24bf9f5288532960ac687abb035127b1d28a588ac\"}]",
       "sign=ALL",
-      "outaddr=0.001:193P6LtvS4nCnkDvM9uXn1gsSRqh4aDAz7"],
+      "outaddr=0.001:LXC44cQhuRufFtaDhDYv4q8nxQJBkUAsXp"],
     "return_code": 1,
-    "error_txt": "error: txid must be hexadecimal string (not '4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc594')",
+    "error_txt": "error: txid must be hexadecimal string (not '6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07b')",
     "description": "Tests the check for invalid txid valid hex, but too short"
   },
   { "exec": "./bitcoin-tx",
     "args":
     ["-create",
-      "in=4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc59485:0",
-      "set=privatekeys:[\"5HpHagT65TZzG1PH3CSu63k8DbpvD8s5ip4nEB3kEsreAnchuDf\"]",
-      "set=prevtxs:[{\"txid\":\"4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc5948512\",\"vout\":0,\"scriptPubKey\":\"76a91491b24bf9f5288532960ac687abb035127b1d28a588ac\"}]",
+      "in=6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf7:0",
+      "set=privatekeys:[\"T3Eyvg7Me8fuajt2RJvQaRokRabBweiyBWVJiQG8P1bwDUEXPhqv\"]",
+      "set=prevtxs:[{\"txid\":\"6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf712\",\"vout\":0,\"scriptPubKey\":\"76a91491b24bf9f5288532960ac687abb035127b1d28a588ac\"}]",
       "sign=ALL",
-      "outaddr=0.001:193P6LtvS4nCnkDvM9uXn1gsSRqh4aDAz7"],
+      "outaddr=0.001:LXC44cQhuRufFtaDhDYv4q8nxQJBkUAsXp"],
     "return_code": 1,
-    "error_txt": "error: txid must be hexadecimal string (not '4d49a71ec9da436f71ec4ee231d04f292a29cd316f598bb7068feccabdc5948512')",
+    "error_txt": "error: txid must be hexadecimal string (not '6c2789243608b46f750f49ff24f6f79a78c3010f7e56951e045e5b7ea5d07bf712')",
     "description": "Tests the check for invalid txid valid hex, but too long"
   },
   { "exec": "./bitcoin-tx",
@@ -386,7 +386,7 @@
   { "exec": "./bitcoin-tx",
     "args":
     ["-create",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0",
+     "in=69e9c12d30a6cd598a31ddfcaabeb9d9f0baf8938bf0ba6610beb04f589cc5ef:0",
      "outdata=4:badhexdata"],
     "return_code": 1,
     "error_txt": "error: invalid TX output data",
@@ -395,7 +395,7 @@
   { "exec": "./bitcoin-tx",
     "args":
     ["-create",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0",
+     "in=69e9c12d30a6cd598a31ddfcaabeb9d9f0baf8938bf0ba6610beb04f589cc5ef:0",
      "outdata=badhexdata"],
     "return_code": 1,
     "error_txt": "error: invalid TX output data",
@@ -404,8 +404,8 @@
   { "exec": "./bitcoin-tx",
     "args":
     ["-create",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0",
-     "outaddr=0.18:13tuJJDR2RgArmgfv6JScSdreahzgc4T6o",
+     "in=69e9c12d30a6cd598a31ddfcaabeb9d9f0baf8938bf0ba6610beb04f589cc5ef:0",
+     "outaddr=0.002:LiTVReQ6N8rWc2pNg2XMwCWq7A9P15teWg",
      "outdata=4:54686973204f505f52455455524e207472616e73616374696f6e206f7574707574207761732063726561746564206279206d6f646966696564206372656174657261777472616e73616374696f6e2e"],
     "output_cmp": "txcreatedata1.hex",
     "description": "Creates a new transaction with one input, one address output and one data output"
@@ -414,8 +414,8 @@
     "args":
     ["-json",
      "-create", "nversion=1",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0",
-     "outaddr=0.18:13tuJJDR2RgArmgfv6JScSdreahzgc4T6o",
+     "in=69e9c12d30a6cd598a31ddfcaabeb9d9f0baf8938bf0ba6610beb04f589cc5ef:0",
+     "outaddr=0.002:LiTVReQ6N8rWc2pNg2XMwCWq7A9P15teWg",
      "outdata=4:54686973204f505f52455455524e207472616e73616374696f6e206f7574707574207761732063726561746564206279206d6f646966696564206372656174657261777472616e73616374696f6e2e"],
     "output_cmp": "txcreatedata1.json",
     "description": "Creates a new v1 transaction with one input, one address output and one data output (output in json)"
@@ -423,8 +423,8 @@
   { "exec": "./bitcoin-tx",
     "args":
     ["-create",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0",
-     "outaddr=0.18:13tuJJDR2RgArmgfv6JScSdreahzgc4T6o",
+     "in=69e9c12d30a6cd598a31ddfcaabeb9d9f0baf8938bf0ba6610beb04f589cc5ef:0",
+     "outaddr=0.002:LiTVReQ6N8rWc2pNg2XMwCWq7A9P15teWg",
      "outdata=54686973204f505f52455455524e207472616e73616374696f6e206f7574707574207761732063726561746564206279206d6f646966696564206372656174657261777472616e73616374696f6e2e"],
     "output_cmp": "txcreatedata2.hex",
     "description": "Creates a new transaction with one input, one address output and one data (zero value) output"
@@ -433,8 +433,8 @@
     "args":
     ["-json",
      "-create",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0",
-     "outaddr=0.18:13tuJJDR2RgArmgfv6JScSdreahzgc4T6o",
+     "in=69e9c12d30a6cd598a31ddfcaabeb9d9f0baf8938bf0ba6610beb04f589cc5ef:0",
+     "outaddr=0.002:LiTVReQ6N8rWc2pNg2XMwCWq7A9P15teWg",
      "outdata=54686973204f505f52455455524e207472616e73616374696f6e206f7574707574207761732063726561746564206279206d6f646966696564206372656174657261777472616e73616374696f6e2e"],
     "output_cmp": "txcreatedata2.json",
     "description": "Creates a new transaction with one input, one address output and one data (zero value) output (output in json)"
@@ -442,8 +442,8 @@
   { "exec": "./bitcoin-tx",
     "args":
     ["-create",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0:4294967293",
-     "outaddr=0.18:13tuJJDR2RgArmgfv6JScSdreahzgc4T6o"],
+     "in=69e9c12d30a6cd598a31ddfcaabeb9d9f0baf8938bf0ba6610beb04f589cc5ef:0:4294967293",
+     "outaddr=0.002:LiTVReQ6N8rWc2pNg2XMwCWq7A9P15teWg"],
     "output_cmp": "txcreatedata_seq0.hex",
     "description": "Creates a new transaction with one input with sequence number and one address output"
   },
@@ -451,15 +451,15 @@
     "args":
     ["-json",
      "-create",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0:4294967293",
-     "outaddr=0.18:13tuJJDR2RgArmgfv6JScSdreahzgc4T6o"],
+     "in=69e9c12d30a6cd598a31ddfcaabeb9d9f0baf8938bf0ba6610beb04f589cc5ef:0:4294967293",
+     "outaddr=0.002:LhzRRruapBx5gEtAf9RuVEePrzcG1wxRYa"],
     "output_cmp": "txcreatedata_seq0.json",
     "description": "Creates a new transaction with one input with sequence number and one address output (output in json)"
   },
   { "exec": "./bitcoin-tx",
     "args":
     ["01000000011f5c38dfcf6f1a5f5a87c416076d392c87e6d41970d5ad5e477a02d66bde97580000000000fdffffff0180a81201000000001976a9141fc11f39be1729bf973a7ab6a615ca4729d6457488ac00000000",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0:1"],
+     "in=69e9c12d30a6cd598a31ddfcaabeb9d9f0baf8938bf0ba6610beb04f589cc5ef:0:1"],
     "output_cmp": "txcreatedata_seq1.hex",
     "description": "Adds a new input with sequence number to a transaction"
   },
@@ -467,7 +467,7 @@
     "args":
     ["-json",
      "01000000011f5c38dfcf6f1a5f5a87c416076d392c87e6d41970d5ad5e477a02d66bde97580000000000fdffffff0180a81201000000001976a9141fc11f39be1729bf973a7ab6a615ca4729d6457488ac00000000",
-     "in=5897de6bd6027a475eadd57019d4e6872c396d0716c4875a5f1a6fcfdf385c1f:0:1"],
+     "in=69e9c12d30a6cd598a31ddfcaabeb9d9f0baf8938bf0ba6610beb04f589cc5ef:0:1"],
     "output_cmp": "txcreatedata_seq1.json",
     "description": "Adds a new input with sequence number to a transaction (output in json)"
   },
