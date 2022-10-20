@@ -1,6 +1,3 @@
-Napocoin integration/staging tree
-================================
-
 What is Napocoin?
 ----------------
 
