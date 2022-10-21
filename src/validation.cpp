@@ -1244,12 +1244,10 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
         halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
 
     //anti-halving //deterministic inflation
-    if (halvings >= 31 && halvings <= 35){
+    if (halvings >= 10 && halvings <= 25){
         return 1;
-    } else if (halvings >= 36 && halvings <= 40){
+    } else if (halvings > 25){
         return 10;
-    } else if (halvings > 40){
-        return 25;
     }
     CAmount nSubsidy = 1400 * COIN;
 
