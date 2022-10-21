@@ -7,10 +7,9 @@
 #include <qt/clientmodel.h>
 
 #include <QPainter>
-#include <QPainterPath>
 #include <QColor>
 #include <QTimer>
-#include <QPainterPath>
+
 #include <cmath>
 
 #define DESIRED_SAMPLES         800
