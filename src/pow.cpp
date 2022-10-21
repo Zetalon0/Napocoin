@@ -88,9 +88,9 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
         nActualTimespan /= 4;
     }
 
-    // The initial settings (4.0 difficulty limiter)
-    int nActualTimespanMax = nTargetTimespan*1;
-    int nActualTimespanMin = nTargetTimespan/1;
+    // The initial settings (0.25 difficulty limiter)
+    int nActualTimespanMax = nTargetTimespan*5/4;
+    int nActualTimespanMin = nTargetTimespan*4/5;
 
     // Limit adjustment step
     if(nActualTimespan < nActualTimespanMin)

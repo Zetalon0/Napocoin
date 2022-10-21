@@ -10,6 +10,7 @@ Napocoin is the cryptocurrency built for fast transactions
  - CLTV (CheckLockTimeVerify) *
  - CSV (Check Sequence Verify) *
  - 5 seconds block targets
+ - block difficulty change every 10000 blocks
  - 1400 coins per block
  - deterministic inflation 
     - 1 coins/block after 10th halvings
