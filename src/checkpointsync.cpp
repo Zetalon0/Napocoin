@@ -190,11 +190,17 @@ uint256 AutoSelectSyncCheckpoint()
 }
 
 // Check against synchronized checkpoint
-bool CheckSyncCheckpoint(const uint256 hashBlock, const int nHeight, const CBlockIndex* pindexPrev)
+bool CheckSyncCheckpoint(const uint256 hashBlock, const int nHeight)
 {
     // Genesis block
     if (nHeight == 0) {
         return true;
+    }
+
+    CBlockIndex* tip = nullptr;
+    {
+        LOCK(cs_main);
+        tip = ::ChainActive().Tip();
     }
 
     {
@@ -206,34 +212,27 @@ bool CheckSyncCheckpoint(const uint256 hashBlock, const int nHeight, const CBloc
         }
     }
 
-    const CBlockIndex* pindexSync;
+    CBlockIndex* pindexSyncTemp = nullptr;
     {
         LOCK2(cs_main, cs_hashSyncCheckpoint);
         // sync-checkpoint should always be accepted block
         assert(::BlockIndex().count(hashSyncCheckpoint));
-        pindexSync = ::BlockIndex()[hashSyncCheckpoint];
+        pindexSyncTemp = ::BlockIndex()[hashSyncCheckpoint];
     }
+
+    const CBlockIndex* pindexSync = pindexSyncTemp;
 
     {
         LOCK(cs_hashSyncCheckpoint);
         if (nHeight > pindexSync->nHeight)
         {
-            const CBlockIndex* pindex;
-            if (pindexPrev) {
-                pindex = pindexPrev;
-            } else {
-                LOCK(cs_main);
-                pindex = ::ChainActive().Tip();
-            }
-
             // Trace back to same height as sync-checkpoint
+            const CBlockIndex* pindex = tip;
             while (pindex->nHeight > pindexSync->nHeight)
                 if (!(pindex = pindex->pprev))
                     return error("%s: pprev null - block index structure failure", __func__);
-            if (pindex->nHeight < pindexSync->nHeight)
-                return error("%s: Wound back below checkpoint sync height. Arg height %d tip height %d checkpoint height %d pindexPrev %s", __func__, nHeight, pindex->nHeight, pindexSync->nHeight, pindexPrev ? "valid" : "nullptr");
-            if (pindex->GetBlockHash() != hashSyncCheckpoint)
-                return error("%s: mismatched block hash at sync height. height %d block hash %s", __func__, pindex->nHeight, pindex->GetBlockHash().ToString(), hashSyncCheckpoint.ToString());
+            if (pindex->nHeight < pindexSync->nHeight || pindex->GetBlockHash() != hashSyncCheckpoint)
+                return false; // only descendant of sync-checkpoint can pass check
         }
         if (nHeight == pindexSync->nHeight && hashBlock != hashSyncCheckpoint)
             return error("%s: Same height with sync-checkpoint", __func__);
