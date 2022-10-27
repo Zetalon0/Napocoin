@@ -124,6 +124,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
+
         bech32_hrp = "nap";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
@@ -135,13 +136,17 @@ public:
         checkpointData = {
             {
                 {  0, uint256S("0x1c14f960c7bb3a61e6da183505add89d4e7c2da1efc4ec06c81174987dd984ba")},	
+				{  10000, uint256S("0x5ae0b9b6365f270718b023955cf975c5677aca523def83e8fbd96b8c2077425f")},	
+				{  30000, uint256S("0x5e476f8483bc951769d9188d30a27d47289739d0e022576e55b56d0c66fcb5bb")},	
+				{  50000, uint256S("0x641376feeee0cafe219d954ea3e8b64ed9e204a44068cea3ab946f73a883b10b")},	
+				{  80000, uint256S("0x677de9d88bee0d3e1a4900d2790f1f277bb229dbf4ea9baf3322965883e6616c")},	
             }
         };
 
         chainTxData = ChainTxData{
-            /* nTime    */ 1664603434,
-            /* nTxCount */ 0,
-            /* dTxRate  */ 0
+            /* nTime    */ 1666821875,
+            /* nTxCount */ 4233,
+            /* dTxRate  */ 0.03466574945335724
         };
     }
 };
@@ -195,9 +200,12 @@ public:
         m_assumed_blockchain_size = 2;
         m_assumed_chain_state_size = 1;
 
-        consensus.nForkOne =62000;
+        consensus.nForkOne =0;
+		consensus.nForkTwo =100;
+		consensus.nForkThree =500;
+		consensus.nForkFour =5000;
         consensus.nTimeLimit = 100;
-        consensus.nNeoScryptFork = 62000;
+        consensus.nNeoScryptFork = 10000;
 
         genesis = CreateGenesisBlock(1664603620, 2363607, 0x1e0ffff0, 1, 1400 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -216,7 +224,8 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "tn";
+
+        bech32_hrp = "tnap";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
@@ -232,6 +241,7 @@ public:
         };
 
         chainTxData = ChainTxData{
+            // Data from rpc: getchaintxstats 545 c889c0fb27bf7c669cff1cf9407f768cde2a084e1dc527baa6dadbed9b22bf29
             /* nTime    */ 1664603620,
             /* nTxCount */ 0,
             /* dTxRate  */ 0
@@ -306,6 +316,7 @@ public:
         fRequireStandard = true;
         m_is_test_chain = true;
 
+
         checkpointData = {
             {
                 {0, uint256S("a2ae4c3a4c0d2e738336bf9a24c064d2a41bc5d52a030e672e5e46c45dc58144")},
@@ -324,7 +335,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "rnap";
+        bech32_hrp = "ranp";
     }
 
     /**

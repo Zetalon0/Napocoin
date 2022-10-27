@@ -12,7 +12,7 @@
  * for both bitcoind and bitcoin-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string CLIENT_NAME("NapocoinCore");
+const std::string CLIENT_NAME("Napocoin");
 
 /**
  * Client version number
@@ -32,7 +32,7 @@ const std::string CLIENT_NAME("NapocoinCore");
  * * then, three options exist for determining CLIENT_BUILD:
  *   * if BUILD_DESC is defined, use that literally (output of git-describe)
  *   * if not, but GIT_COMMIT is defined, use v[maj].[min].[rev].[build]-g[commit]
- *   * otherwise, use v[maj].[min].[rev].[build]-unk
+ *   * otherwise, use v[maj].[min].[rev].[build]-neo
  * finally CLIENT_VERSION_SUFFIX is added
  */
 
@@ -54,7 +54,7 @@ const std::string CLIENT_NAME("NapocoinCore");
     "v" DO_STRINGIZE(maj) "." DO_STRINGIZE(min) "." DO_STRINGIZE(rev) "." DO_STRINGIZE(build) "-g" commit
 
 #define BUILD_DESC_FROM_UNKNOWN(maj, min, rev, build) \
-    "v" DO_STRINGIZE(maj) "." DO_STRINGIZE(min) "." DO_STRINGIZE(rev) "." DO_STRINGIZE(build) "-unk"
+    "v" DO_STRINGIZE(maj) "." DO_STRINGIZE(min) "." DO_STRINGIZE(rev) "." DO_STRINGIZE(build) "-neo"
 
 #ifndef BUILD_DESC
 #ifdef BUILD_SUFFIX

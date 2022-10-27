@@ -16,14 +16,14 @@ BOOST_FIXTURE_TEST_SUITE(validation_tests, TestingSetup)
 static void TestBlockSubsidyHalvings(const Consensus::Params& consensusParams)
 {
     int maxHalvings = 64;
-    CAmount nInitialSubsidy = 200 * COIN;
+    CAmount nInitialSubsidy = 1400 * COIN;
 
     CAmount nPreviousSubsidy = nInitialSubsidy * 2; // for height == 0
     BOOST_CHECK_EQUAL(nPreviousSubsidy, nInitialSubsidy * 2);
     bool reduced = true;
     for (int nHalvings = 0; nHalvings < maxHalvings; nHalvings++) {
         int nHeight = nHalvings * consensusParams.nSubsidyHalvingInterval - 306960;
-        if (nHeight + 306960 >= consensusParams.nForkOne && reduced) {
+        if (nHeight + 306960 >= consensusParams.nForkThree && reduced) {
             nPreviousSubsidy = 1400 * COIN;
             reduced = false;
         }

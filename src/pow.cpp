@@ -15,18 +15,32 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     assert(pindexLast != nullptr);
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
-    int nHeight = pindexLast->nHeight + 1; 
-    // 1th Hard fork, reset difficulty
-    if (nHeight == params.nForkOne)
+    int nHeight = pindexLast->nHeight + 1;
+
+    // 4th Hard fork, reset difficulty
+    if (nHeight == params.nForkFour)
         return UintToArith256(params.powNeoScryptLimit).GetCompact();
+
     int nTargetTimespan = params.nPowTargetTimespan;
     int nTargetSpacing = params.nPowTargetSpacing;
 
+    if (nHeight >= params.nForkOne)
+        nTargetTimespan = (7 * 24 * 60 * 60) / 8; // 7/8 days
+
+    if (nHeight >= params.nForkTwo)
+        nTargetTimespan = (7 * 24 * 60 * 60) / 32; // 7/32 days
+
+    if (nHeight >= params.nForkThree) {
+        nTargetTimespan = 5 * 10000; // 1 minute timespan
+        nTargetSpacing = 5; // 1 minute block
+    }
+
     int64_t nInterval = nTargetTimespan / nTargetSpacing;
 
-    bool fHardFork = nHeight == params.nForkOne;
+    bool fHardFork = nHeight == params.nForkOne || nHeight == params.nForkTwo;
+
     // Only change once per difficulty adjustment interval
-    if ((pindexLast->nHeight+1) % nInterval != 0 && !fHardFork && nHeight < params.nForkOne)
+    if ((pindexLast->nHeight+1) % nInterval != 0 && !fHardFork && nHeight < params.nForkThree)
     {
         return pindexLast->nBits;
     }
@@ -62,8 +76,20 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     int64_t nInterval = nTargetTimespan / nTargetSpacing;
     int nActualTimespanAvg = 0;
 
-    if (nHeight >= params.nForkOne) {
-        nInterval = 1;
+    if (nHeight >= params.nForkTwo && nHeight < params.nForkThree) {
+        nInterval *= 4;
+        const CBlockIndex* pindexFirst = pindexLast;
+        for(int i = 0; pindexFirst && i < nInterval; i++)
+            pindexFirst = pindexFirst->pprev;
+
+        int nActualTimespanLong = (pindexLast->GetBlockTime() - pindexFirst->GetBlockTime())/4;
+
+        // Average between short and long windows
+        nActualTimespanAvg = (nActualTimespan + nActualTimespanLong) / 2;
+    }
+
+    if (nHeight >= params.nForkThree) {
+        nInterval = 60;
 
         int pindexFirstShortTime = 0;
         int pindexFirstMediumTime = 0;
@@ -82,15 +108,27 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
         nActualTimespanAvg = (nActualTimespanShort + nActualTimespanMedium + nActualTimespanLong) / 3;
     }
 
-    if (nHeight >= params.nForkOne) {
+    if (nHeight >= params.nForkTwo) {
         // Apply .25 damping
         nActualTimespan = nActualTimespanAvg + 3 * nTargetTimespan;
         nActualTimespan /= 4;
     }
 
-    // The initial settings (0.25 difficulty limiter)
-    int nActualTimespanMax = nTargetTimespan*5/4;
-    int nActualTimespanMin = nTargetTimespan*4/5;
+    // The initial settings (4.0 difficulty limiter)
+    int nActualTimespanMax = nTargetTimespan*4;
+    int nActualTimespanMin = nTargetTimespan/4;
+
+    // The 1st hard fork (1.4142857 aka 41% difficulty limiter)
+    if (nHeight >= params.nForkOne && nHeight < params.nForkTwo) {
+        nActualTimespanMax = nTargetTimespan*99/70;
+        nActualTimespanMin = nTargetTimespan*70/99;
+    }
+
+    // The 2nd hard fork (1.0905077 aka 9% difficulty limiter)
+    if (nHeight >= params.nForkTwo) {
+        nActualTimespanMax = nTargetTimespan*494/453;
+        nActualTimespanMin = nTargetTimespan*453/494;
+    }
 
     // Limit adjustment step
     if(nActualTimespan < nActualTimespanMin)

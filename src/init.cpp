@@ -561,7 +561,7 @@ void SetupServerArgs()
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/Zetalon0/Napocoin>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/Zeatalon0/Napocoin>";
     const std::string URL_WEBSITE = "<https://napocoin.net>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i-%i").translated, 2022, COPYRIGHT_YEAR) + " ") + "\n" +

@@ -80,6 +80,9 @@ struct Params {
     int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
     int nForkOne;
+    int nForkTwo;
+    int nForkThree;
+    int nForkFour;
     int nTimeLimit;
     unsigned int nNeoScryptFork;
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
