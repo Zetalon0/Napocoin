@@ -15,6 +15,8 @@ BitcoinUnits::BitcoinUnits(QObject *parent):
 QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnits::Unit> unitlist;
+    unitlist.append(MBTC);
+    unitlist.append(kBTC);
     unitlist.append(BTC);
     unitlist.append(mBTC);
     unitlist.append(uBTC);
@@ -26,6 +28,8 @@ bool BitcoinUnits::valid(int unit)
 {
     switch(unit)
     {
+    case MBTC
+    case kBTC
     case BTC:
     case mBTC:
     case uBTC:
@@ -40,6 +44,8 @@ QString BitcoinUnits::longName(int unit)
 {
     switch(unit)
     {
+    case MBTC: return QString("MNAP");
+    case kBTC: return QString("kNAP");
     case BTC: return QString("NAP");
     case mBTC: return QString("mNAP");
     case uBTC: return QString::fromUtf8("µNAP (bits)");
@@ -62,6 +68,8 @@ QString BitcoinUnits::description(int unit)
 {
     switch(unit)
     {
+    case MBTC: return QString("Mega-Napocoins (1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case kBTC: return QString("Kilo-Napocoins (1" THIN_SP_UTF8 "000)");
     case BTC: return QString("Napocoins");
     case mBTC: return QString("Milli-Napocoins (1 / 1" THIN_SP_UTF8 "000)");
     case uBTC: return QString("Micro-Napocoins (bits) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
@@ -74,6 +82,8 @@ qint64 BitcoinUnits::factor(int unit)
 {
     switch(unit)
     {
+    case MBTC: return 100000000000000;
+    case kBTC: return 100000000000;
     case BTC: return 100000000;
     case mBTC: return 100000;
     case uBTC: return 100;
@@ -86,6 +96,8 @@ int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
     {
+    case MBTC: return 14;
+    case kBTC: return 11;
     case BTC: return 8;
     case mBTC: return 5;
     case uBTC: return 2;
